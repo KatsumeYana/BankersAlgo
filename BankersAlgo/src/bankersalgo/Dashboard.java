@@ -275,7 +275,6 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         jDialogCheckout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jDialogCheckout.setEnabled(true);
         jDialogCheckout.setMaximumSize(new java.awt.Dimension(474, 646));
         jDialogCheckout.setMinimumSize(new java.awt.Dimension(474, 646));
         jDialogCheckout.setPreferredSize(new java.awt.Dimension(474, 646));
@@ -605,9 +604,9 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnCheckoutActionPerformed
 
     private void jBtnArchivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnArchivedActionPerformed
-        jDialogCheckout.pack();
-        jDialogCheckout.setLocationRelativeTo(this);
-        jDialogCheckout.setVisible(true);
+        jDialogArchived.pack();
+        jDialogArchived.setLocationRelativeTo(this);
+        jDialogArchived.setVisible(true);
     }//GEN-LAST:event_jBtnArchivedActionPerformed
 
     private void jbtnCloseCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseCheckinActionPerformed
