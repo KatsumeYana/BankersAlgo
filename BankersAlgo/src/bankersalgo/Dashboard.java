@@ -50,18 +50,26 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jbtnCloseCheckin = new javax.swing.JButton();
+        jbtnSafely = new javax.swing.JButton();
+        jbtnConfirmAllocation = new javax.swing.JButton();
         jDialogCheckout = new javax.swing.JDialog();
         jlblTitleCheckout = new javax.swing.JLabel();
         jlblSearch = new javax.swing.JLabel();
         jtxtFieldSearch = new javax.swing.JTextField();
         jlblNote = new javax.swing.JLabel();
-        jbtnClose = new javax.swing.JButton();
+        jbtnCheckoutClose = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jbtnSubmit = new javax.swing.JButton();
         jDialogArchived = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jbtnCloseArchived = new javax.swing.JButton();
+        jtxtFieldSearchBard = new javax.swing.JTextField();
+        jbtnSearch = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblProcesses = new javax.swing.JTable();
@@ -139,14 +147,19 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        jButton4.setText("Close");
-
-        jButton5.setText("Verify Safety");
-
-        jButton6.setText("Confirm Allocation");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCloseCheckin.setText("Close");
+        jbtnCloseCheckin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jbtnCloseCheckinActionPerformed(evt);
+            }
+        });
+
+        jbtnSafely.setText("Verify Safety");
+
+        jbtnConfirmAllocation.setText("Confirm Allocation");
+        jbtnConfirmAllocation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnConfirmAllocationActionPerformed(evt);
             }
         });
 
@@ -180,31 +193,30 @@ public class Dashboard extends javax.swing.JFrame {
                                                     .addComponent(jLabel8)
                                                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addGap(5, 5, 5))
-                                    .addGroup(jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel10)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckinLayout.createSequentialGroup()
-                                            .addGroup(jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jDialogCheckinLayout.createSequentialGroup()
-                                                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckinLayout.createSequentialGroup()
-                                                    .addComponent(jLabel11)
-                                                    .addGap(178, 178, 178)))
-                                            .addGroup(jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel12)
-                                                .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(jSpinner6, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabel10)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckinLayout.createSequentialGroup()
+                                        .addGroup(jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jDialogCheckinLayout.createSequentialGroup()
+                                                .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckinLayout.createSequentialGroup()
+                                                .addComponent(jLabel11)
+                                                .addGap(178, 178, 178)))
+                                        .addGroup(jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel12)
+                                            .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jSpinner6, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel13))))
                         .addGap(0, 13, Short.MAX_VALUE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckinLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(jbtnCloseCheckin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(jbtnSafely)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addComponent(jbtnConfirmAllocation)
                 .addGap(25, 25, 25))
             .addGroup(jDialogCheckinLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
@@ -254,15 +266,17 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(jbtnCloseCheckin)
+                    .addComponent(jbtnSafely)
+                    .addComponent(jbtnConfirmAllocation))
                 .addGap(17, 17, 17))
         );
 
         jDialogCheckout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jDialogCheckout.setEnabled(false);
+        jDialogCheckout.setEnabled(true);
+        jDialogCheckout.setMaximumSize(new java.awt.Dimension(474, 646));
         jDialogCheckout.setMinimumSize(new java.awt.Dimension(474, 646));
+        jDialogCheckout.setPreferredSize(new java.awt.Dimension(474, 646));
 
         jlblTitleCheckout.setText("Guest Check-Out");
 
@@ -276,10 +290,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         jlblNote.setText("Start typing to find your reservation");
 
-        jbtnClose.setText("Close");
-        jbtnClose.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCheckoutClose.setText("Close");
+        jbtnCheckoutClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCloseActionPerformed(evt);
+                jbtnCheckoutCloseActionPerformed(evt);
             }
         });
 
@@ -306,7 +320,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckoutLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jbtnClose)
+                .addComponent(jbtnCheckoutClose)
                 .addGap(35, 35, 35)
                 .addComponent(jbtnSubmit)
                 .addGap(38, 38, 38))
@@ -326,23 +340,79 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addGroup(jDialogCheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnClose)
+                    .addComponent(jbtnCheckoutClose)
                     .addComponent(jbtnSubmit))
                 .addGap(30, 30, 30))
         );
 
         jDialogArchived.setAutoRequestFocus(false);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jbtnCloseArchived.setText("Close");
+        jbtnCloseArchived.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCloseArchivedActionPerformed(evt);
+            }
+        });
+
+        jtxtFieldSearchBard.setText("jTextField1");
+
+        jbtnSearch.setText("Search");
+
+        jLabel1.setText("Archived Records");
+
         javax.swing.GroupLayout jDialogArchivedLayout = new javax.swing.GroupLayout(jDialogArchived.getContentPane());
         jDialogArchived.getContentPane().setLayout(jDialogArchivedLayout);
         jDialogArchivedLayout.setHorizontalGroup(
             jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogArchivedLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnCloseArchived)
+                .addGap(52, 52, 52))
+            .addGroup(jDialogArchivedLayout.createSequentialGroup()
+                .addGroup(jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogArchivedLayout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jDialogArchivedLayout.createSequentialGroup()
+                                .addComponent(jtxtFieldSearchBard, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbtnSearch))))
+                    .addGroup(jDialogArchivedLayout.createSequentialGroup()
+                        .addGap(396, 396, 396)
+                        .addComponent(jLabel1)))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         jDialogArchivedLayout.setVerticalGroup(
             jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(jDialogArchivedLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addGap(33, 33, 33)
+                .addGroup(jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtFieldSearchBard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnSearch))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jbtnCloseArchived)
+                .addGap(21, 21, 21))
         );
+
+        jScrollPane4.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 700));
@@ -406,14 +476,6 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jtblResourceAllocation);
 
         jBtnCheckin.setText("Check in");
-        jBtnCheckin.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                jBtnCheckinComponentAdded(evt);
-            }
-            public void componentRemoved(java.awt.event.ContainerEvent evt) {
-                jBtnCheckinComponentRemoved(evt);
-            }
-        });
         jBtnCheckin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnCheckinActionPerformed(evt);
@@ -421,8 +483,18 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jBtnCheckout.setText("Check out");
+        jBtnCheckout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCheckoutActionPerformed(evt);
+            }
+        });
 
         jBtnArchived.setText("Archived");
+        jBtnArchived.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnArchivedActionPerformed(evt);
+            }
+        });
 
         jlblProcesses.setText("Processes");
 
@@ -502,33 +574,47 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnCheckinComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jBtnCheckinComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnCheckinComponentAdded
-
-    private void jBtnCheckinComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jBtnCheckinComponentRemoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnCheckinComponentRemoved
-
-    private void jBtnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCheckinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnCheckinActionPerformed
-
     private void jtxtFieldSearchGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldSearchGuestActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtFieldSearchGuestActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void jbtnConfirmAllocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmAllocationActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jbtnConfirmAllocationActionPerformed
 
     private void jtxtFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtFieldSearchActionPerformed
 
-    private void jbtnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnCloseActionPerformed
+    private void jbtnCheckoutCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckoutCloseActionPerformed
+        jDialogCheckout.setVisible(false); // Close the checkout dialog
+    }//GEN-LAST:event_jbtnCheckoutCloseActionPerformed
+
+    private void jBtnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCheckinActionPerformed
+        jDialogCheckin.pack();
+        jDialogCheckin.setLocationRelativeTo(this);
+        jDialogCheckin.setVisible(true);
+    }//GEN-LAST:event_jBtnCheckinActionPerformed
+
+    private void jBtnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCheckoutActionPerformed
+        jDialogCheckout.pack();
+        jDialogCheckout.setLocationRelativeTo(this);
+        jDialogCheckout.setVisible(true);
+    }//GEN-LAST:event_jBtnCheckoutActionPerformed
+
+    private void jBtnArchivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnArchivedActionPerformed
+        jDialogCheckout.pack();
+        jDialogCheckout.setLocationRelativeTo(this);
+        jDialogCheckout.setVisible(true);
+    }//GEN-LAST:event_jBtnArchivedActionPerformed
+
+    private void jbtnCloseCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseCheckinActionPerformed
+        jDialogCheckin.setVisible(false); // Close the check-in dialog
+    }//GEN-LAST:event_jbtnCloseCheckinActionPerformed
+
+    private void jbtnCloseArchivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseArchivedActionPerformed
+        jDialogArchived.setVisible(false);
+    }//GEN-LAST:event_jbtnCloseArchivedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -572,12 +658,11 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jBtnArchived;
     private javax.swing.JButton jBtnCheckin;
     private javax.swing.JButton jBtnCheckout;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JDialog jDialogArchived;
     private javax.swing.JDialog jDialogCheckin;
     private javax.swing.JDialog jDialogCheckout;
+    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -594,6 +679,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSpinner jSpinner1;
@@ -602,7 +689,13 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner4;
     private javax.swing.JSpinner jSpinner5;
     private javax.swing.JSpinner jSpinner6;
-    private javax.swing.JButton jbtnClose;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbtnCheckoutClose;
+    private javax.swing.JButton jbtnCloseArchived;
+    private javax.swing.JButton jbtnCloseCheckin;
+    private javax.swing.JButton jbtnConfirmAllocation;
+    private javax.swing.JButton jbtnSafely;
+    private javax.swing.JButton jbtnSearch;
     private javax.swing.JButton jbtnSubmit;
     private javax.swing.JLabel jlblNote;
     private javax.swing.JLabel jlblProcesses;
@@ -615,6 +708,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTable jtblProcesses;
     private javax.swing.JTable jtblResourceAllocation;
     private javax.swing.JTextField jtxtFieldSearch;
+    private javax.swing.JTextField jtxtFieldSearchBard;
     private javax.swing.JTextField jtxtFieldSearchGuest;
     // End of variables declaration//GEN-END:variables
 }
