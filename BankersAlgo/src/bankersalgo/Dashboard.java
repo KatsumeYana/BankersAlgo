@@ -438,10 +438,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Olde Hearth || Dashboard");
-        setMaximumSize(new java.awt.Dimension(1000, 860));
-        setMinimumSize(new java.awt.Dimension(1000, 860));
+        setMaximumSize(new java.awt.Dimension(1000, 800));
+        setMinimumSize(new java.awt.Dimension(1000, 800));
         setName("FrameDashboard"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1000, 860));
+        setPreferredSize(new java.awt.Dimension(1000, 800));
 
         jlblTitleDashboard.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jlblTitleDashboard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -449,10 +449,13 @@ public class Dashboard extends javax.swing.JFrame {
         jlblTitleDashboard.setToolTipText("");
         jlblTitleDashboard.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jlblGuestAllocations.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblGuestAllocations.setText("Guest Allocations & Max Claims");
 
+        jlblNeedRequests.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblNeedRequests.setText("Needs & Requests");
 
+        jlblResourceStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblResourceStatus.setText("Resource Status");
 
         jScrollPaneDashboard.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -546,48 +549,35 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlblTitleDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbtnCheckin)
-                                .addGap(27, 27, 27)
-                                .addComponent(jbtnCheckout))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(354, 354, 354)
-                                .addComponent(jlblNeedRequests))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(360, 360, 360)
-                                .addComponent(jlblResourceStatus))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(320, 320, 320)
-                                .addComponent(jlblGuestAllocations)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPaneDashboard1)
+                    .addComponent(jScrollPaneDashboard2)
+                    .addComponent(jlblResourceStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlblNeedRequests, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPaneDashboard1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
-                                .addComponent(jScrollPaneDashboard2))
-                            .addComponent(jbtnArchived, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPaneDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(70, 70, 70))))
+                        .addComponent(jbtnCheckin)
+                        .addGap(31, 31, 31)
+                        .addComponent(jbtnCheckout)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbtnArchived))
+                    .addComponent(jScrollPaneDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblGuestAllocations, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(110, 110, 110))
+            .addComponent(jlblTitleDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlblTitleDashboard)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnCheckin)
-                    .addComponent(jbtnCheckout)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbtnCheckin)
+                        .addComponent(jbtnCheckout))
                     .addComponent(jbtnArchived))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlblGuestAllocations)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -599,7 +589,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jlblResourceStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneDashboard2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
+                .addGap(46, 46, 46))
         );
 
         pack();
