@@ -5,7 +5,7 @@
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 es/GUIForms/JFrame.java to edit this template
- */
+ */ //hi yani
 package bankersalgo;
 
 import java.awt.Color;
