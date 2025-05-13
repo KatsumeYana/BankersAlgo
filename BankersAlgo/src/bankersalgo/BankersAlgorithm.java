@@ -18,6 +18,7 @@ public class BankersAlgorithm {
 
     // Banker's Algorithm implementation
     public boolean isSafeAllocation(int requestedRegular, int requestedDeluxe, int requestedStaff) {
+
         try {
             Statement stmt = conn.createStatement();
 
@@ -100,8 +101,20 @@ public class BankersAlgorithm {
     //Check In of the Guests
     public void handleBankerCheckIn(String guestName, int qtyRegular, int qtyDeluxe,
             int maxRegular, int maxDeluxe, int maxStaff) {
-        // Verify safety using Banker's algorithm
-        if (!isSafeAllocation(qtyRegular, qtyDeluxe, qtyRegular + qtyDeluxe)) {
+        int staffNeeded = qtyRegular + qtyDeluxe;
+
+        // Add this validation at the start of handleBankerCheckIn
+        if (qtyRegular < 0 || qtyDeluxe < 0 || maxRegular < qtyRegular
+                || maxDeluxe < qtyDeluxe || maxStaff < (qtyRegular + qtyDeluxe)) {
+            JOptionPane.showMessageDialog(null,
+                    "Invalid input values:\n"
+                    + "- All values must be positive\n"
+                    + "- Max values cannot be less than allocated amounts",
+                    "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // Verify safety using Banker's algorithm with the actual values
+        if (!isSafeAllocation(qtyRegular, qtyDeluxe, staffNeeded)) {
             JOptionPane.showMessageDialog(null,
                     "✗ Unsafe allocation - would lead to potential deadlock\n"
                     + "Please reduce your resource requests or try again later",
@@ -325,7 +338,6 @@ public class BankersAlgorithm {
         }
     }
 
-    
     //Table 2
     public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
         try {
@@ -365,14 +377,14 @@ public class BankersAlgorithm {
                     boolean reqWithinAvail = req[0] <= available[0] && req[1] <= available[1] && req[2] <= available[2];
 
                     if (!reqWithinNeed) {
-                        status = "✗ Request > Need";
+                        status = "Invalid";
                     } else if (!reqWithinAvail) {
-                        status = "✗ Request > Available";
+                        status = "Pending";
                     } else {
-                        // Simulate with Banker's Algorithm
                         boolean safe = isSafeAllocation(req[0], req[1], req[2]);
-                        status = safe ? "✓ Safe" : "✗ Unsafe";
+                        status = safe ? "Approved" : "Denied";
                     }
+
                 }
 
                 model.addRow(new Object[]{
@@ -390,18 +402,21 @@ public class BankersAlgorithm {
 
     //Current Resources
     private int[] getCurrentAvailableResources() throws SQLException {
-    int[] available = new int[3];
-    Statement stmt = conn.createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
-    while (rs.next()) {
-        switch (rs.getString("resource_type")) {
-            case "regular_suite" -> available[0] = rs.getInt("available");
-            case "deluxe_suite" -> available[1] = rs.getInt("available");
-            case "house_staff" -> available[2] = rs.getInt("available");
+        int[] available = new int[3];
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
+        while (rs.next()) {
+            switch (rs.getString("resource_type")) {
+                case "regular_suite" ->
+                    available[0] = rs.getInt("available");
+                case "deluxe_suite" ->
+                    available[1] = rs.getInt("available");
+                case "house_staff" ->
+                    available[2] = rs.getInt("available");
+            }
         }
+        return available;
     }
-    return available;
-}
 
     //Determines if the available resources are still safe when a guest requests
     private boolean isSafeState(List<Guest> guests, Resources resources) {

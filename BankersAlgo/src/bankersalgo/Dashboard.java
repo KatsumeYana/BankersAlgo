@@ -29,18 +29,18 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = this.getSize();
-        this.setLocation((screenSize.width - frameSize.width) / 2, 
-                         (screenSize.height - frameSize.height) / 2);
+        this.setLocation((screenSize.width - frameSize.width) / 2,
+                (screenSize.height - frameSize.height) / 2);
         //Dashboard - Guest Allocations table
         jScrollPaneDashboard.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneDashboard.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jScrollPaneDashboard.setViewportView(jtblGuestAllocations);
-        
+
         //Dashboard - Needs & Request Table
         jScrollPaneDashboard1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneDashboard1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jScrollPaneDashboard1.setViewportView(jtblNeedsRequests);
-        
+
         //Dashboard - Resource Status
         jScrollPaneDashboard2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneDashboard2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -54,10 +54,9 @@ public class Dashboard extends javax.swing.JFrame {
         placeHolderEffect(jtxtFieldGuest, "Enter guest name");
         updateAvailabilityLabels(); //updates the tale while showing
         updateResourceStatusTable(); //updates the status table in the dashboard
-        updateNeedsRequestsTable() ;
+        updateNeedsRequestsTable();
         updateGuestAllocationsTable();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,8 +108,8 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPaneArchived = new javax.swing.JScrollPane();
         jtblArchived = new javax.swing.JTable();
-        jScrollPaneArchived = new javax.swing.JScrollPane();
-        jtblArchived = new javax.swing.JTable();
+        jScrollPaneArchived1 = new javax.swing.JScrollPane();
+        jtblArchived1 = new javax.swing.JTable();
         jbtnCloseArchived = new javax.swing.JButton();
         jtxtFieldSearchBar = new javax.swing.JTextField();
         jbtnSearch = new javax.swing.JButton();
@@ -135,8 +134,6 @@ public class Dashboard extends javax.swing.JFrame {
         jDialogCheckin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jDialogCheckin.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
         jDialogCheckin.setForeground(new java.awt.Color(243, 212, 178));
-        jDialogCheckin.setMaximumSize(new java.awt.Dimension(550, 775));
-        jDialogCheckin.setPreferredSize(new java.awt.Dimension(685, 775));
         jDialogCheckin.setResizable(false);
         jDialogCheckin.setType(java.awt.Window.Type.POPUP);
 
@@ -388,7 +385,6 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         jDialogCheckout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jDialogCheckout.setMaximumSize(new java.awt.Dimension(574, 318));
         jDialogCheckout.setMinimumSize(new java.awt.Dimension(574, 318));
         jDialogCheckout.setResizable(false);
 
@@ -524,9 +520,9 @@ public class Dashboard extends javax.swing.JFrame {
         jtblArchived.getTableHeader().setReorderingAllowed(false);
         jScrollPaneArchived.setViewportView(jtblArchived);
 
-        jtblArchived.setBackground(new java.awt.Color(255, 238, 219));
-        jtblArchived.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
-        jtblArchived.setModel(new javax.swing.table.DefaultTableModel(
+        jtblArchived1.setBackground(new java.awt.Color(255, 238, 219));
+        jtblArchived1.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jtblArchived1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -552,8 +548,8 @@ public class Dashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtblArchived.getTableHeader().setReorderingAllowed(false);
-        jScrollPaneArchived.setViewportView(jtblArchived);
+        jtblArchived1.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneArchived1.setViewportView(jtblArchived1);
 
         jbtnCloseArchived.setBackground(new java.awt.Color(171, 125, 76));
         jbtnCloseArchived.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
@@ -844,43 +840,6 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnConfirmAllocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmAllocationActionPerformed
-        String guestName = jtxtFieldGuest.getText().trim();
-
-        if (guestName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a guest name", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        try {
-            int allocatedRegular = (int) jSpinner1.getValue();
-            int allocatedDeluxe = (int) jSpinner2.getValue();
-            int allocatedStaff = (int) jSpinner3.getValue();
-            int maxRegular = (int) jSpinner4.getValue();
-            int maxDeluxe = (int) jSpinner5.getValue();
-            int maxStaff = (int) jSpinner6.getValue();
-
-            // Call the Banker's Algorithm check-in handler
-            bankersAlgo.handleBankerCheckIn(
-                guestName, 
-                allocatedRegular, 
-                allocatedDeluxe, 
-                maxRegular, 
-                maxDeluxe, 
-                maxStaff
-            );
-
-            // Refresh tables after successful check-in
-            refreshTables();
-
-            // Close the dialog after successful check-in
-            jDialogCheckin.setVisible(false);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Invalid input values", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jbtnConfirmAllocationActionPerformed
-
     private void jtxtFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtFieldSearchActionPerformed
@@ -902,6 +861,7 @@ public class Dashboard extends javax.swing.JFrame {
         jDialogCheckin.pack();
         jDialogCheckin.setLocationRelativeTo(this);
         jDialogCheckin.setVisible(true);
+
     }//GEN-LAST:event_jbtnCheckinActionPerformed
 
     private void jbtnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckoutActionPerformed
@@ -916,46 +876,18 @@ public class Dashboard extends javax.swing.JFrame {
         jDialogArchived.setVisible(true);
     }//GEN-LAST:event_jbtnArchivedActionPerformed
 
-    
-    /*----Check-in JDiaogue-----*/
-    
-    // Modify the jbtnSafely action (verify safety button)
-    private void jbtnSafelyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSafelyActionPerformed
-        try {
-            int requestedRegular = (int) jSpinner1.getValue();
-            int requestedDeluxe = (int) jSpinner2.getValue();
-            int requestedStaff = (int) jSpinner3.getValue();
-
-            boolean isSafe = bankersAlgo.isSafeAllocation(requestedRegular, requestedDeluxe, requestedStaff);
-
-            if (isSafe) {
-                JOptionPane.showMessageDialog(this, 
-                    "✓ This allocation is safe and can be granted", 
-                    "Safety Verified", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, 
-                    "✗ This allocation is not safe and could lead to deadlock", 
-                    "Unsafe Allocation", 
-                    JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Invalid input values", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jbtnSafelyActionPerformed
-
     private void jtxtFieldGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldGuestActionPerformed
         jtxtFieldGuest.setText(null);
     }//GEN-LAST:event_jtxtFieldGuestActionPerformed
 
     private void jbtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLogoutActionPerformed
-            // Show confirmation dialog with custom icon
+        // Show confirmation dialog with custom icon
         int confirm = JOptionPane.showConfirmDialog(
-            this, 
-            "Are you sure you want to logout?", 
-            "Confirm Logout", 
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE
+                this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
@@ -971,6 +903,8 @@ public class Dashboard extends javax.swing.JFrame {
             });
         }
     }//GEN-LAST:event_jbtnLogoutActionPerformed
+
+           
 
     private void jtxtFieldSearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldSearchBarActionPerformed
       String keyword = jtxtFieldSearchBar.getText().trim();
@@ -988,6 +922,16 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCheckoutSearchActionPerformed
 
+    
+    //CHecking Buttons that confirms Stuff
+    private void jbtnSafelyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSafelyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSafelyActionPerformed
+
+    private void jbtnConfirmAllocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmAllocationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnConfirmAllocationActionPerformed
+
  
 
     public void placeHolderEffect(JTextField field, String placeholderText){
@@ -1002,7 +946,6 @@ public class Dashboard extends javax.swing.JFrame {
                     field.setForeground(Color.BLACK);
                 }
             }
-
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (field.getText().trim().isEmpty()) {
@@ -1012,7 +955,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Add this method to refresh all tables
     private void refreshTables() {
         bankersAlgo.updateGuestTable(jtblGuestAllocations);
@@ -1028,120 +971,111 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     /*------------------Functions for the Tables-----------------------*/
-    //
-        private void updateAvailabilityLabels() {
-            String query = "SELECT resource_type, available FROM resource_allocation";
+    //Shows the available resources
+    private void updateAvailabilityLabels() {
+        String query = "SELECT resource_type, available FROM resource_allocation";
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(query);
-                 ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
-                while (rs.next()) {
-                    String type = rs.getString("resource_type");
-                    int available = rs.getInt("available");
+            while (rs.next()) {
+                String type = rs.getString("resource_type");
+                int available = rs.getInt("available");
 
-                    switch (type) {
-                        case "regular_suite":
-                            jlblRegular.setText("Regular Suites: " + String.valueOf(available));
-                            break;
-                        case "deluxe_suite":
-                            jlblDeluxe.setText("Deluxe Suites: " + String.valueOf(available));
-                            break;
-                        case "house_staff":
-                            jlblStaff.setText("Staff: " + String.valueOf(available));
-                            break;
-                    }
+                switch (type) {
+                    case "regular_suite":
+                        jlblRegular.setText("Regular Suites: " + String.valueOf(available));
+                        break;
+                    case "deluxe_suite":
+                        jlblDeluxe.setText("Deluxe Suites: " + String.valueOf(available));
+                        break;
+                    case "house_staff":
+                        jlblStaff.setText("Staff: " + String.valueOf(available));
+                        break;
                 }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Failed to fetch availability.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to fetch availability.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        private void updateResourceStatusTable() {
-            String[] columnNames = {"Resource Type", "Max Capacity", "Allocated", "Available", "Status"};
-            DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+    }
 
-            String query = "SELECT resource_type, max_capacity, allocated, available, status FROM resource_allocation";
+    private void updateResourceStatusTable() {
+        String[] columnNames = {"Resource Type", "Max Capacity", "Allocated", "Available", "Status"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(query);
-                 ResultSet rs = stmt.executeQuery()) {
+        String query = "SELECT resource_type, max_capacity, allocated, available, status FROM resource_allocation";
 
-                while (rs.next()) {
-                    String type = rs.getString("resource_type");
-                    int max = rs.getInt("max_capacity");
-                    int allocated = rs.getInt("allocated");
-                    int available = rs.getInt("available");
-                    String status = rs.getString("status");
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
-                    model.addRow(new Object[]{type, max, allocated, available, status});
-                }
+            while (rs.next()) {
+                String type = rs.getString("resource_type");
+                int max = rs.getInt("max_capacity");
+                int allocated = rs.getInt("allocated");
+                int available = rs.getInt("available");
+                String status = rs.getString("status");
 
-                jtblResourceStatus.setModel(model);
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Failed to load resource status.", "Error", JOptionPane.ERROR_MESSAGE);
+                model.addRow(new Object[]{type, max, allocated, available, status});
             }
+
+            jtblResourceStatus.setModel(model);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to load resource status.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        private void updateGuestAllocationsTable() {
-            String[] columns = {"Guest Name", "Regular", "Deluxe", "Staff", "Check-in", "Check-out"};
-            DefaultTableModel model = new DefaultTableModel(columns, 0);
+    }
 
-            String query = "SELECT guest_name, allocated_regular, allocated_deluxe, allocated_staff, max_regular, max_deluxe, max_staff FROM guests";
+    private void updateGuestAllocationsTable() {
+        String[] columns = {"Guest Name", "Regular", "Deluxe", "Staff", "Check-in", "Check-out"};
+        DefaultTableModel model = new DefaultTableModel(columns, 0);
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(query);
-                 ResultSet rs = stmt.executeQuery()) {
+        String query = "SELECT guest_name, allocated_regular, allocated_deluxe, allocated_staff, max_regular, max_deluxe, max_staff FROM guests";
 
-                while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getString("guest_name"),
-                        rs.getInt("allocated_regular"),
-                        rs.getInt("allocated_deluxe"),
-                        rs.getInt("allocated_staff"),
-                        rs.getInt("max_regular"),
-                        rs.getInt("max_deluxe"),
-                        rs.getInt("max_staff"),
-                    });
-                }
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
-                jtblGuestAllocations.setModel(model);
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Failed to load guest allocations.", "Error", JOptionPane.ERROR_MESSAGE);
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("guest_name"),
+                    rs.getInt("allocated_regular"),
+                    rs.getInt("allocated_deluxe"),
+                    rs.getInt("allocated_staff"),
+                    rs.getInt("max_regular"),
+                    rs.getInt("max_deluxe"),
+                    rs.getInt("max_staff"),});
             }
+
+            jtblGuestAllocations.setModel(model);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to load guest allocations.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        private void updateNeedsRequestsTable() {
-            String[] columns = {"Guest Name", "Request", "Status"};
-            DefaultTableModel model = new DefaultTableModel(columns, 0);
+    }
 
-            String query = "SELECT guest_name, request_detail, status FROM guest_requests";
+    private void updateNeedsRequestsTable() {
+        String[] columns = {"Guest Name", "Request", "Status"};
+        DefaultTableModel model = new DefaultTableModel(columns, 0);
 
-            try (Connection conn = DatabaseConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(query);
-                 ResultSet rs = stmt.executeQuery()) {
+        String query = "SELECT guest_name, request_detail, status FROM guest_requests";
 
-                while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getString("guest_name"),
-                        rs.getString("request_detail"),
-                        rs.getString("status")
-                    });
-                }
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
 
-                jtblNeedsRequests.setModel(model);
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Failed to load needs & requests.", "Error", JOptionPane.ERROR_MESSAGE);
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("guest_name"),
+                    rs.getString("request_detail"),
+                    rs.getString("status")
+                });
             }
+
+            jtblNeedsRequests.setModel(model);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to load needs & requests.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog jDialogArchived;
     private javax.swing.JDialog jDialogCheckin;
@@ -1162,6 +1096,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPaneArchived;
+    private javax.swing.JScrollPane jScrollPaneArchived1;
     private javax.swing.JScrollPane jScrollPaneDashboard;
     private javax.swing.JScrollPane jScrollPaneDashboard1;
     private javax.swing.JScrollPane jScrollPaneDashboard2;
@@ -1197,6 +1132,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jlblTitleCheckout;
     private javax.swing.JLabel jlblTitleDashboard;
     private javax.swing.JTable jtblArchived;
+    private javax.swing.JTable jtblArchived1;
     private javax.swing.JTable jtblGuestAllocations;
     private javax.swing.JTable jtblNeedsRequests;
     private javax.swing.JTable jtblResourceStatus;
@@ -1205,3 +1141,4 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtFieldSearchBar;
     // End of variables declaration//GEN-END:variables
 }
+
