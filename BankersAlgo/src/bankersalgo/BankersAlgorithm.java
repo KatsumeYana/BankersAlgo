@@ -142,6 +142,63 @@ public class BankersAlgorithm {
         }
     }
 
+    //Check Out for the Guests
+    public void handleGuestCheckOut(String searchName) {
+        try {
+            String query = "SELECT * FROM guests WHERE guest_name LIKE ? AND check_out_time IS NULL";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, "%" + searchName + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(null,
+                        "✗ No active reservation found for: " + searchName,
+                        "Guest Not Found", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Retrieve guest data
+            String guestName = rs.getString("guest_name");
+            int allocRegular = rs.getInt("allocated_regular");
+            int allocDeluxe = rs.getInt("allocated_deluxe");
+            int allocStaff = rs.getInt("allocated_staff");
+            Timestamp checkInTime = rs.getTimestamp("check_in_time");
+
+            // Show confirmation dialog with guest info
+            StringBuilder guestInfo = new StringBuilder("✓ Guest Found:\n\n");
+            guestInfo.append("Name: ").append(guestName).append("\n");
+            guestInfo.append("Regular Suites: ").append(allocRegular).append("\n");
+            guestInfo.append("Deluxe Suites: ").append(allocDeluxe).append("\n");
+            guestInfo.append("House Staff Assigned: ").append(allocStaff).append("\n");
+            guestInfo.append("Check-In Time: ").append(checkInTime).append("\n\n");
+            guestInfo.append("Would you like to complete the check-out?");
+
+            int confirm = JOptionPane.showConfirmDialog(null, guestInfo.toString(),
+                    "Confirm Check-Out", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Perform the check-out
+                String updateSQL = "UPDATE guests SET check_out_time = ? WHERE guest_name = ? AND check_out_time IS NULL";
+                PreparedStatement updateStmt = conn.prepareStatement(updateSQL);
+                updateStmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+                updateStmt.setString(2, guestName);
+                updateStmt.executeUpdate();
+
+                // Restore the resources
+                updateResourceAllocation(-allocRegular, -allocDeluxe, -allocStaff);
+
+                JOptionPane.showMessageDialog(null,
+                        "✓ Check-out completed for guest: " + guestName,
+                        "Check-Out Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error during check-out: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     //Updates data in Table 1
     private void updateResourceAllocation(int qtyRegular, int qtyDeluxe, int qtyStaff) throws SQLException {
         // Update regular suites
