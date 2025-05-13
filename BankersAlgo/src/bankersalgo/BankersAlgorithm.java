@@ -327,7 +327,6 @@ public class BankersAlgorithm {
         }
     }
 
-    
     //Table 2
     public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
         try {
@@ -367,14 +366,14 @@ public class BankersAlgorithm {
                     boolean reqWithinAvail = req[0] <= available[0] && req[1] <= available[1] && req[2] <= available[2];
 
                     if (!reqWithinNeed) {
-                        status = "✗ Request > Need";
+                        status = "Invalid";
                     } else if (!reqWithinAvail) {
-                        status = "✗ Request > Available";
+                        status = "Pending";
                     } else {
-                        // Simulate with Banker's Algorithm
                         boolean safe = isSafeAllocation(req[0], req[1], req[2]);
-                        status = safe ? "✓ Safe" : "✗ Unsafe";
+                        status = safe ? "Approved" : "Denied";
                     }
+
                 }
 
                 model.addRow(new Object[]{
@@ -392,18 +391,21 @@ public class BankersAlgorithm {
 
     //Current Resources
     private int[] getCurrentAvailableResources() throws SQLException {
-    int[] available = new int[3];
-    Statement stmt = conn.createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
-    while (rs.next()) {
-        switch (rs.getString("resource_type")) {
-            case "regular_suite" -> available[0] = rs.getInt("available");
-            case "deluxe_suite" -> available[1] = rs.getInt("available");
-            case "house_staff" -> available[2] = rs.getInt("available");
+        int[] available = new int[3];
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
+        while (rs.next()) {
+            switch (rs.getString("resource_type")) {
+                case "regular_suite" ->
+                    available[0] = rs.getInt("available");
+                case "deluxe_suite" ->
+                    available[1] = rs.getInt("available");
+                case "house_staff" ->
+                    available[2] = rs.getInt("available");
+            }
         }
+        return available;
     }
-    return available;
-}
 
     //Determines if the available resources are still safe when a guest requests
     private boolean isSafeState(List<Guest> guests, Resources resources) {
