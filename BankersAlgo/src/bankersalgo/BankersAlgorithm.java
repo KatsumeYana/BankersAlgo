@@ -18,6 +18,7 @@ public class BankersAlgorithm {
 
     // Banker's Algorithm implementation
     public boolean isSafeAllocation(int requestedRegular, int requestedDeluxe, int requestedStaff) {
+
         try {
             Statement stmt = conn.createStatement();
 
@@ -100,8 +101,20 @@ public class BankersAlgorithm {
     //Check In of the Guests
     public void handleBankerCheckIn(String guestName, int qtyRegular, int qtyDeluxe,
             int maxRegular, int maxDeluxe, int maxStaff) {
-        // Verify safety using Banker's algorithm
-        if (!isSafeAllocation(qtyRegular, qtyDeluxe, qtyRegular + qtyDeluxe)) {
+        int staffNeeded = qtyRegular + qtyDeluxe;
+
+        // Add this validation at the start of handleBankerCheckIn
+        if (qtyRegular < 0 || qtyDeluxe < 0 || maxRegular < qtyRegular
+                || maxDeluxe < qtyDeluxe || maxStaff < (qtyRegular + qtyDeluxe)) {
+            JOptionPane.showMessageDialog(null,
+                    "Invalid input values:\n"
+                    + "- All values must be positive\n"
+                    + "- Max values cannot be less than allocated amounts",
+                    "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // Verify safety using Banker's algorithm with the actual values
+        if (!isSafeAllocation(qtyRegular, qtyDeluxe, staffNeeded)) {
             JOptionPane.showMessageDialog(null,
                     "✗ Unsafe allocation - would lead to potential deadlock\n"
                     + "Please reduce your resource requests or try again later",
@@ -162,7 +175,6 @@ public class BankersAlgorithm {
             int allocRegular = rs.getInt("allocated_regular");
             int allocDeluxe = rs.getInt("allocated_deluxe");
             int allocStaff = rs.getInt("allocated_staff");
-            Timestamp checkInTime = rs.getTimestamp("check_in_time");
 
             // Show confirmation dialog with guest info
             StringBuilder guestInfo = new StringBuilder("✓ Guest Found:\n\n");
@@ -170,7 +182,6 @@ public class BankersAlgorithm {
             guestInfo.append("Regular Suites: ").append(allocRegular).append("\n");
             guestInfo.append("Deluxe Suites: ").append(allocDeluxe).append("\n");
             guestInfo.append("House Staff Assigned: ").append(allocStaff).append("\n");
-            guestInfo.append("Check-In Time: ").append(checkInTime).append("\n\n");
             guestInfo.append("Would you like to complete the check-out?");
 
             int confirm = JOptionPane.showConfirmDialog(null, guestInfo.toString(),
