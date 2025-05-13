@@ -1,8 +1,15 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templat    @Override
+    public void adjustmentValueChanged(AdjustmentEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+es/GUIForms/JFrame.java to edit this template
  */
 package bankersalgo;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -10,12 +17,30 @@ package bankersalgo;
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DashBoard
-     */
+    
     public Dashboard() {
+        this.setLocationRelativeTo(null);
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension frameSize = this.getSize();
+        this.setLocation((screenSize.width - frameSize.width) / 2, 
+                         (screenSize.height - frameSize.height) / 2);
+        //Dashboard - Guest Allocations table
+        jScrollPaneDashboard.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneDashboard.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPaneDashboard.setViewportView(jtblGuestAllocations);
+        
+        //Dashboard - Needs & Request Table
+        jScrollPaneDashboard1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneDashboard1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPaneDashboard1.setViewportView(jtblNeedsRequests);
+        
+        //Rresouc
+        jScrollPaneDashboard2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneDashboard2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPaneDashboard2.setViewportView(jtblResourceStatus);
     }
+    
 
     private BankersAlgorithm bankersAlgo = new BankersAlgorithm();
 
@@ -70,19 +95,19 @@ public class Dashboard extends javax.swing.JFrame {
         jtxtFieldSearchBard = new javax.swing.JTextField();
         jbtnSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtblProcesses = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtblResourceAllocation = new javax.swing.JTable();
-        jBtnCheckin = new javax.swing.JButton();
-        jBtnCheckout = new javax.swing.JButton();
-        jBtnArchived = new javax.swing.JButton();
-        jlblProcesses = new javax.swing.JLabel();
-        jlblResourceAllocation = new javax.swing.JLabel();
         jlblTitleDashboard = new javax.swing.JLabel();
+        jlblGuestAllocations = new javax.swing.JLabel();
+        jlblNeedRequests = new javax.swing.JLabel();
+        jlblResourceStatus = new javax.swing.JLabel();
+        jScrollPaneDashboard = new javax.swing.JScrollPane();
+        jtblGuestAllocations = new javax.swing.JTable();
+        jScrollPaneDashboard1 = new javax.swing.JScrollPane();
+        jtblNeedsRequests = new javax.swing.JTable();
+        jScrollPaneDashboard2 = new javax.swing.JScrollPane();
+        jtblResourceStatus = new javax.swing.JTable();
+        jbtnCheckin = new javax.swing.JButton();
+        jbtnCheckout = new javax.swing.JButton();
+        jbtnArchived = new javax.swing.JButton();
 
         jlblTitleCheckin.setText("Resource Allocation Check-In");
 
@@ -275,9 +300,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         jDialogCheckout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jDialogCheckout.setMaximumSize(new java.awt.Dimension(474, 646));
         jDialogCheckout.setMinimumSize(new java.awt.Dimension(474, 646));
-        jDialogCheckout.setPreferredSize(new java.awt.Dimension(474, 646));
 
         jlblTitleCheckout.setText("Guest Check-Out");
 
@@ -413,42 +436,70 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
-        jScrollPane4.setViewportView(jEditorPane1);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1000, 700));
-        setMinimumSize(new java.awt.Dimension(1000, 700));
-        setResizable(false);
+        setTitle("Olde Hearth || Dashboard");
+        setMaximumSize(new java.awt.Dimension(1000, 860));
+        setMinimumSize(new java.awt.Dimension(1000, 860));
+        setName("FrameDashboard"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1000, 860));
 
-        jtblProcesses.setModel(new javax.swing.table.DefaultTableModel(
+        jlblTitleDashboard.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jlblTitleDashboard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblTitleDashboard.setText("Hotel Management Dashboard");
+        jlblTitleDashboard.setToolTipText("");
+        jlblTitleDashboard.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jlblGuestAllocations.setText("Guest Allocations & Max Claims");
+
+        jlblNeedRequests.setText("Needs & Requests");
+
+        jlblResourceStatus.setText("Resource Status");
+
+        jScrollPaneDashboard.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jtblGuestAllocations.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Guests", "Allocated Regular", "Allocated Deluxe", "Allocated Staff", "Max Regular", "Max Deluxe", "Max Staff"
+                "Guest ", "Title 2", "Alloc. Regular", "Alloc. Deluxe", "Alloc. Staff", "Max Regular", "Max Deluxe", "Max Staff"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jtblProcesses);
+        jScrollPaneDashboard.setViewportView(jtblGuestAllocations);
 
-        jtblResourceAllocation.setModel(new javax.swing.table.DefaultTableModel(
+        jtblNeedsRequests.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Guest ", "Need Regular", "Need Deluxe", "Need Staff", "Req. Regular", "Req. Deluxe", "Req. Staff", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneDashboard1.setViewportView(jtblNeedsRequests);
+
+        jtblResourceStatus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -456,120 +507,99 @@ public class Dashboard extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Resource Type", "Max Capacity", "Allocated", "Available", "Status"
+                "Resource  ", "Max", "Allocated (G1 +G3)", "Available", "Status"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jtblResourceAllocation);
+        jScrollPaneDashboard2.setViewportView(jtblResourceStatus);
 
-        jBtnCheckin.setText("Check in");
-        jBtnCheckin.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCheckin.setText("Checkin");
+        jbtnCheckin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnCheckinActionPerformed(evt);
+                jbtnCheckinActionPerformed(evt);
             }
         });
 
-        jBtnCheckout.setText("Check out");
-        jBtnCheckout.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCheckout.setText("Checkout");
+        jbtnCheckout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnCheckoutActionPerformed(evt);
+                jbtnCheckoutActionPerformed(evt);
             }
         });
 
-        jBtnArchived.setText("Archived");
-        jBtnArchived.addActionListener(new java.awt.event.ActionListener() {
+        jbtnArchived.setText("Archived");
+        jbtnArchived.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnArchivedActionPerformed(evt);
+                jbtnArchivedActionPerformed(evt);
             }
         });
-
-        jlblProcesses.setText("Processes");
-
-        jlblResourceAllocation.setText("Current Resource Allocation Status");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(jBtnCheckin)
-                        .addGap(80, 80, 80)
-                        .addComponent(jBtnCheckout)
-                        .addGap(79, 79, 79)
-                        .addComponent(jBtnArchived))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(285, 285, 285)
-                        .addComponent(jlblProcesses))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(224, 224, 224)
-                        .addComponent(jlblResourceAllocation)))
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jlblProcesses)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jlblResourceAllocation)
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnCheckin)
-                    .addComponent(jBtnCheckout)
-                    .addComponent(jBtnArchived))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        jlblTitleDashboard.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jlblTitleDashboard.setText("Hotel Management Dashboard");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(155, 155, 155)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(jlblTitleDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                        .addComponent(jlblTitleDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbtnCheckin)
+                                .addGap(27, 27, 27)
+                                .addComponent(jbtnCheckout))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(354, 354, 354)
+                                .addComponent(jlblNeedRequests))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(360, 360, 360)
+                                .addComponent(jlblResourceStatus))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(320, 320, 320)
+                                .addComponent(jlblGuestAllocations)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPaneDashboard1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
+                                .addComponent(jScrollPaneDashboard2))
+                            .addComponent(jbtnArchived, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPaneDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(70, 70, 70))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlblTitleDashboard)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnCheckin)
+                    .addComponent(jbtnCheckout)
+                    .addComponent(jbtnArchived))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblGuestAllocations)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addComponent(jScrollPaneDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblNeedRequests, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblResourceStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneDashboard2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7))
         );
 
         pack();
@@ -591,24 +621,6 @@ public class Dashboard extends javax.swing.JFrame {
         jDialogCheckout.setVisible(false); // Close the checkout dialog
     }//GEN-LAST:event_jbtnCheckoutCloseActionPerformed
 
-    private void jBtnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCheckinActionPerformed
-        jDialogCheckin.pack();
-        jDialogCheckin.setLocationRelativeTo(this);
-        jDialogCheckin.setVisible(true);
-    }//GEN-LAST:event_jBtnCheckinActionPerformed
-
-    private void jBtnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCheckoutActionPerformed
-        jDialogCheckout.pack();
-        jDialogCheckout.setLocationRelativeTo(this);
-        jDialogCheckout.setVisible(true);
-    }//GEN-LAST:event_jBtnCheckoutActionPerformed
-
-    private void jBtnArchivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnArchivedActionPerformed
-        jDialogArchived.pack();
-        jDialogArchived.setLocationRelativeTo(this);
-        jDialogArchived.setVisible(true);
-    }//GEN-LAST:event_jBtnArchivedActionPerformed
-
     private void jbtnCloseCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseCheckinActionPerformed
         jDialogCheckin.setVisible(false); // Close the check-in dialog
     }//GEN-LAST:event_jbtnCloseCheckinActionPerformed
@@ -617,52 +629,32 @@ public class Dashboard extends javax.swing.JFrame {
         jDialogArchived.setVisible(false);
     }//GEN-LAST:event_jbtnCloseArchivedActionPerformed
 
+    private void jbtnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckinActionPerformed
+        jDialogCheckin.pack();
+        jDialogCheckin.setLocationRelativeTo(this);
+        jDialogCheckin.setVisible(true);
+    }//GEN-LAST:event_jbtnCheckinActionPerformed
+
+    private void jbtnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckoutActionPerformed
+        jDialogCheckout.pack();
+        jDialogCheckout.setLocationRelativeTo(this);
+        jDialogCheckout.setVisible(true);
+    }//GEN-LAST:event_jbtnCheckoutActionPerformed
+
+    private void jbtnArchivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnArchivedActionPerformed
+        jDialogArchived.pack();
+        jDialogArchived.setLocationRelativeTo(this);
+        jDialogArchived.setVisible(true);
+    }//GEN-LAST:event_jbtnArchivedActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnArchived;
-    private javax.swing.JButton jBtnCheckin;
-    private javax.swing.JButton jBtnCheckout;
     private javax.swing.JDialog jDialogArchived;
     private javax.swing.JDialog jDialogCheckin;
     private javax.swing.JDialog jDialogCheckout;
-    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -676,12 +668,12 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPaneDashboard;
+    private javax.swing.JScrollPane jScrollPaneDashboard1;
+    private javax.swing.JScrollPane jScrollPaneDashboard2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSpinner jSpinner1;
@@ -691,6 +683,9 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner5;
     private javax.swing.JSpinner jSpinner6;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbtnArchived;
+    private javax.swing.JButton jbtnCheckin;
+    private javax.swing.JButton jbtnCheckout;
     private javax.swing.JButton jbtnCheckoutClose;
     private javax.swing.JButton jbtnCloseArchived;
     private javax.swing.JButton jbtnCloseCheckin;
@@ -698,16 +693,18 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jbtnSafely;
     private javax.swing.JButton jbtnSearch;
     private javax.swing.JButton jbtnSubmit;
+    private javax.swing.JLabel jlblGuestAllocations;
+    private javax.swing.JLabel jlblNeedRequests;
     private javax.swing.JLabel jlblNote;
-    private javax.swing.JLabel jlblProcesses;
-    private javax.swing.JLabel jlblResourceAllocation;
+    private javax.swing.JLabel jlblResourceStatus;
     private javax.swing.JLabel jlblSearch;
     private javax.swing.JLabel jlblSearchGuest;
     private javax.swing.JLabel jlblTitleCheckin;
     private javax.swing.JLabel jlblTitleCheckout;
     private javax.swing.JLabel jlblTitleDashboard;
-    private javax.swing.JTable jtblProcesses;
-    private javax.swing.JTable jtblResourceAllocation;
+    private javax.swing.JTable jtblGuestAllocations;
+    private javax.swing.JTable jtblNeedsRequests;
+    private javax.swing.JTable jtblResourceStatus;
     private javax.swing.JTextField jtxtFieldSearch;
     private javax.swing.JTextField jtxtFieldSearchBard;
     private javax.swing.JTextField jtxtFieldSearchGuest;
