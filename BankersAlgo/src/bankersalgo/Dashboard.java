@@ -560,17 +560,17 @@ public class Dashboard extends javax.swing.JFrame {
 
         jtblNeedsRequests.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Guest ", "Need Deluxe", "Need Staff", "Req. Regular", "Req. Deluxe", "Req. Staff", "Status"
+                "Guest ", "Need Regular", "Need Deluxe", "Need Staff", "Req. Regular", "Req. Deluxe", "Req. Staff", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

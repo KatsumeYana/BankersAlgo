@@ -327,6 +327,84 @@ public class BankersAlgorithm {
         }
     }
 
+    
+    //Table 2
+    public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setRowCount(0); // Clear existing data
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE check_out_time IS NULL");
+
+            int[] available = getCurrentAvailableResources();
+
+            while (rs.next()) {
+                String name = rs.getString("guest_name");
+                int[] alloc = {
+                    rs.getInt("allocated_regular"),
+                    rs.getInt("allocated_deluxe"),
+                    rs.getInt("allocated_staff")
+                };
+                int[] max = {
+                    rs.getInt("max_regular"),
+                    rs.getInt("max_deluxe"),
+                    rs.getInt("max_staff")
+                };
+
+                int[] need = new int[3];
+                for (int i = 0; i < 3; i++) {
+                    need[i] = max[i] - alloc[i];
+                }
+
+                int[] req = {0, 0, 0};
+                String status = "—";
+
+                if (name.equalsIgnoreCase(requestingGuest)) {
+                    req = request;
+
+                    boolean reqWithinNeed = req[0] <= need[0] && req[1] <= need[1] && req[2] <= need[2];
+                    boolean reqWithinAvail = req[0] <= available[0] && req[1] <= available[1] && req[2] <= available[2];
+
+                    if (!reqWithinNeed) {
+                        status = "✗ Request > Need";
+                    } else if (!reqWithinAvail) {
+                        status = "✗ Request > Available";
+                    } else {
+                        // Simulate with Banker's Algorithm
+                        boolean safe = isSafeAllocation(req[0], req[1], req[2]);
+                        status = safe ? "✓ Safe" : "✗ Unsafe";
+                    }
+                }
+
+                model.addRow(new Object[]{
+                    name,
+                    need[0], need[1], need[2],
+                    req[0], req[1], req[2],
+                    status
+                });
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Current Resources
+    private int[] getCurrentAvailableResources() throws SQLException {
+    int[] available = new int[3];
+    Statement stmt = conn.createStatement();
+    ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
+    while (rs.next()) {
+        switch (rs.getString("resource_type")) {
+            case "regular_suite" -> available[0] = rs.getInt("available");
+            case "deluxe_suite" -> available[1] = rs.getInt("available");
+            case "house_staff" -> available[2] = rs.getInt("available");
+        }
+    }
+    return available;
+}
+
     //Determines if the available resources are still safe when a guest requests
     private boolean isSafeState(List<Guest> guests, Resources resources) {
         int[] work = resources.getAvailable().clone();
