@@ -40,7 +40,8 @@ public class DatabaseSetup {
                     allocated_staff INT DEFAULT 0,
                     max_regular INT DEFAULT 0,
                     max_deluxe INT DEFAULT 0,
-                    max_staff INT DEFAULT 0
+                    max_staff INT DEFAULT 0,
+                    status ENUM('Check-In', 'Check-Out') NOT NULL DEFAULT 'Check-In'             
                 );
                 """;
             stmt.executeUpdate(createGuests);

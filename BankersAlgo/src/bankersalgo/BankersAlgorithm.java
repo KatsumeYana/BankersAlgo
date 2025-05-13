@@ -2,6 +2,7 @@ package bankersalgo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -15,6 +16,7 @@ public class BankersAlgorithm {
     public BankersAlgorithm() {
         conn = DatabaseConnection.getConnection();
     }
+    
 
     // Banker's Algorithm implementation
     public boolean isSafeAllocation(int requestedRegular, int requestedDeluxe, int requestedStaff) {
@@ -68,7 +70,7 @@ public class BankersAlgorithm {
             res.allocate(new int[]{requestedRegular, requestedDeluxe, requestedStaff});
 
             // 2. Get guest allocations and needs
-            rs = stmt.executeQuery("SELECT * FROM guests WHERE check_out_time IS NULL");
+            rs = stmt.executeQuery("SELECT * FROM guests WHERE status = 'Check-In'");
             List<Guest> guests = new ArrayList<>();
             while (rs.next()) {
                 int[] alloc = {
@@ -99,66 +101,130 @@ public class BankersAlgorithm {
     }
 
     //Check In of the Guests
-    public void handleBankerCheckIn(String guestName, int qtyRegular, int qtyDeluxe,
-            int maxRegular, int maxDeluxe, int maxStaff) {
-        int staffNeeded = qtyRegular + qtyDeluxe;
-
-        // Add this validation at the start of handleBankerCheckIn
-        if (qtyRegular < 0 || qtyDeluxe < 0 || maxRegular < qtyRegular
-                || maxDeluxe < qtyDeluxe || maxStaff < (qtyRegular + qtyDeluxe)) {
-            JOptionPane.showMessageDialog(null,
-                    "Invalid input values:\n"
-                    + "- All values must be positive\n"
-                    + "- Max values cannot be less than allocated amounts",
-                    "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
+    public boolean handleBankerCheckIn(String guestName, 
+                                 int reqRegular, int reqDeluxe, 
+                                 int maxRegular, int maxDeluxe, int maxStaff) {
+    // Calculate required staff (1 staff per room)
+    int reqStaff = reqRegular + reqDeluxe;
+    
+    // 1. Check basic availability first
+    int[] available = getAvailableResources();
+    if (available == null) {
+        JOptionPane.showMessageDialog(null, 
+            "Error checking resource availability. Please try again.",
+            "Database Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    }
+    
+    // Check if requested resources exceed available
+    if (reqRegular > available[0] || reqDeluxe > available[1] || reqStaff > available[2]) {
+        StringBuilder errorMsg = new StringBuilder("✗ Not enough available resources:\n");
+        
+        if (reqRegular > available[0]) {
+            errorMsg.append("• Regular Suites: Requested ").append(reqRegular)
+                   .append(", Available ").append(available[0]).append("\n");
         }
-        // Verify safety using Banker's algorithm with the actual values
-        if (!isSafeAllocation(qtyRegular, qtyDeluxe, staffNeeded)) {
-            JOptionPane.showMessageDialog(null,
-                    "✗ Unsafe allocation - would lead to potential deadlock\n"
-                    + "Please reduce your resource requests or try again later",
-                    "Unsafe Allocation", JOptionPane.WARNING_MESSAGE);
-            return;
+        if (reqDeluxe > available[1]) {
+            errorMsg.append("• Deluxe Suites: Requested ").append(reqDeluxe)
+                   .append(", Available ").append(available[1]).append("\n");
         }
-
+        if (reqStaff > available[2]) {
+            errorMsg.append("• House Staff: Requested ").append(reqStaff)
+                   .append(", Available ").append(available[2]).append("\n");
+        }
+        
+        errorMsg.append("\nPlease adjust your request.");
+        
+        JOptionPane.showMessageDialog(null, errorMsg.toString(),
+            "Insufficient Resources", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    
+    // 2. Check if allocation is safe using Banker's algorithm
+    boolean isSafe = isSafeAllocation(guestName, reqRegular, reqDeluxe, maxRegular, maxDeluxe, maxStaff);
+    
+    if (!isSafe) {
+        JOptionPane.showMessageDialog(null,
+            "✗ This allocation would make the system unsafe.\n" +
+            "Please reduce your resource requests.",
+            "Unsafe Allocation", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    
+    // 3. Show confirmation dialog with allocation details
+    StringBuilder confirmMsg = new StringBuilder("✓ Allocation is safe!\n\n");
+    confirmMsg.append("Guest: ").append(guestName).append("\n");
+    confirmMsg.append("Allocating:\n");
+    confirmMsg.append("• Regular Suites: ").append(reqRegular).append("\n");
+    confirmMsg.append("• Deluxe Suites: ").append(reqDeluxe).append("\n");
+    confirmMsg.append("• House Staff: ").append(reqStaff).append("\n\n");
+    confirmMsg.append("Maximum Needs:\n");
+    confirmMsg.append("• Regular Suites: ").append(maxRegular).append("\n");
+    confirmMsg.append("• Deluxe Suites: ").append(maxDeluxe).append("\n");
+    confirmMsg.append("• House Staff: ").append(maxStaff).append("\n\n");
+    confirmMsg.append("Confirm check-in?");
+    
+    int confirm = JOptionPane.showConfirmDialog(null, confirmMsg.toString(),
+        "Confirm Check-In", JOptionPane.YES_NO_OPTION);
+    
+    if (confirm != JOptionPane.YES_OPTION) {
+        return false;
+    }
+    
+    // 4. Insert into database
+    try {
+        // Start transaction
+        conn.setAutoCommit(false);
+        
+        // Insert guest record
+        String insertGuest = "INSERT INTO guests (guest_name, allocated_regular, allocated_deluxe, " +
+                           "allocated_staff, max_regular, max_deluxe, max_staff, status) " +
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, 'Check-In')";
+        PreparedStatement pstmt = conn.prepareStatement(insertGuest);
+        pstmt.setString(1, guestName);
+        pstmt.setInt(2, reqRegular);
+        pstmt.setInt(3, reqDeluxe);
+        pstmt.setInt(4, reqStaff);
+        pstmt.setInt(5, maxRegular);
+        pstmt.setInt(6, maxDeluxe);
+        pstmt.setInt(7, maxStaff);
+        pstmt.executeUpdate();
+        
+        // Update resource allocations
+        updateResourceAllocation(reqRegular, reqDeluxe, reqStaff);
+        
+        // Commit transaction
+        conn.commit();
+        
+        JOptionPane.showMessageDialog(null,
+            "✓ Check-in successful for " + guestName,
+            "Check-In Complete", JOptionPane.INFORMATION_MESSAGE);
+        
+        return true;
+        
+    } catch (SQLException e) {
         try {
-            // Insert into guests table
-            String insertSQL = "INSERT INTO guests (guest_name, allocated_regular, allocated_deluxe, allocated_staff, "
-                    + "max_regular, max_deluxe, max_staff, check_in_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(insertSQL);
-            pstmt.setString(1, guestName);
-            pstmt.setInt(2, qtyRegular);
-            pstmt.setInt(3, qtyDeluxe);
-            pstmt.setInt(4, qtyRegular + qtyDeluxe);
-            pstmt.setInt(5, maxRegular);
-            pstmt.setInt(6, maxDeluxe);
-            pstmt.setInt(7, maxStaff);
-            pstmt.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
-            pstmt.executeUpdate();
-
-            // Update resource allocation
-            updateResourceAllocation(qtyRegular, qtyDeluxe, qtyRegular + qtyDeluxe);
-
-            // Show confirmation
-            JOptionPane.showMessageDialog(null,
-                    "✓ Safe allocation confirmed for " + guestName + "\n"
-                    + "Regular Rooms: " + qtyRegular + "\n"
-                    + "Deluxe Rooms: " + qtyDeluxe + "\n"
-                    + "Total Staff Needed: " + (qtyRegular + qtyDeluxe),
-                    "Allocation Successful", JOptionPane.INFORMATION_MESSAGE);
-
+            conn.rollback();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        JOptionPane.showMessageDialog(null,
+            "Error during check-in: " + e.getMessage(),
+            "Database Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    } finally {
+        try {
+            conn.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error during check-in: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+}
     //Check Out for the Guests
     public void handleGuestCheckOut(String searchName) {
         try {
-            String query = "SELECT * FROM guests WHERE guest_name LIKE ? AND check_out_time IS NULL";
+            String query = "SELECT * FROM guests WHERE guest_name LIKE ? AND status = 'Check-In'";
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, "%" + searchName + "%");
             ResultSet rs = pstmt.executeQuery();
@@ -189,7 +255,7 @@ public class BankersAlgorithm {
 
             if (confirm == JOptionPane.YES_OPTION) {
                 // Perform the check-out
-                String updateSQL = "UPDATE guests SET check_out_time = ? WHERE guest_name = ? AND check_out_time IS NULL";
+                String updateSQL = "UPDATE guests WHERE guest_name = ? AND status = 'Check-In'";
                 PreparedStatement updateStmt = conn.prepareStatement(updateSQL);
                 updateStmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
                 updateStmt.setString(2, guestName);
@@ -209,31 +275,35 @@ public class BankersAlgorithm {
                     "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    
+
+
 
     //Updates data in Table 1
-    private void updateResourceAllocation(int qtyRegular, int qtyDeluxe, int qtyStaff) throws SQLException {
+    public void updateResourceAllocation(int allocRegular, int allocDeluxe, int allocStaff) throws SQLException {
         // Update regular suites
         PreparedStatement pstmt = conn.prepareStatement(
                 "UPDATE resource_allocation SET allocated = allocated + ?, available = available - ? "
                 + "WHERE resource_type = 'regular_suite'");
-        pstmt.setInt(1, qtyRegular);
-        pstmt.setInt(2, qtyRegular);
+        pstmt.setInt(1, allocRegular);
+        pstmt.setInt(2, allocRegular);
         pstmt.executeUpdate();
 
         // Update deluxe suites
         pstmt = conn.prepareStatement(
                 "UPDATE resource_allocation SET allocated = allocated + ?, available = available - ? "
                 + "WHERE resource_type = 'deluxe_suite'");
-        pstmt.setInt(1, qtyDeluxe);
-        pstmt.setInt(2, qtyDeluxe);
+        pstmt.setInt(1, allocDeluxe);
+        pstmt.setInt(2, allocDeluxe);
         pstmt.executeUpdate();
 
         // Update staff
         pstmt = conn.prepareStatement(
                 "UPDATE resource_allocation SET allocated = allocated + ?, available = available - ? "
                 + "WHERE resource_type = 'house_staff'");
-        pstmt.setInt(1, qtyStaff);
-        pstmt.setInt(2, qtyStaff);
+        pstmt.setInt(1, allocStaff);
+        pstmt.setInt(2, allocStaff);
         pstmt.executeUpdate();
 
         // Update status based on availability
@@ -311,7 +381,7 @@ public class BankersAlgorithm {
             model.setRowCount(0); // Clear existing data
 
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE check_out_time IS NULL");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE status = 'Check-in'");
 
             while (rs.next()) {
                 String name = rs.getString("guest_name");
@@ -345,7 +415,7 @@ public class BankersAlgorithm {
             model.setRowCount(0); // Clear existing data
 
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE check_out_time IS NULL");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE status = 'Check-In'");
 
             int[] available = getCurrentAvailableResources();
 
@@ -448,4 +518,115 @@ public class BankersAlgorithm {
 
         return true;
     }
+    
+    public int[] getAvailableResources() {
+    String query = "SELECT available FROM resource_allocation ORDER BY resource_type";
+    int[] available = new int[3]; // regular, deluxe, staff
+    
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        if (rs.next()) available[0] = rs.getInt(1); // regular
+        if (rs.next()) available[1] = rs.getInt(1); // deluxe
+        if (rs.next()) available[2] = rs.getInt(1); // staff
+        
+        return available;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
+    public boolean isSafeAllocation(String guestName, 
+                              int reqRegular, int reqDeluxe,
+                              int maxRegular, int maxDeluxe, int maxStaff) {
+    // Calculate staff required (1 staff per room)
+    int reqStaff = reqRegular + reqDeluxe;
+    
+    // 1. Get current state from database
+    int[] available = getAvailableResources();
+    if (available == null) return false;
+    
+    // 2. Check if requested resources exceed available
+    if (reqRegular > available[0] || reqDeluxe > available[1] || reqStaff > available[2]) {
+        return false;
+    }
+
+    // 3. Temporarily allocate resources for safety check
+    available[0] -= reqRegular;
+    available[1] -= reqDeluxe;
+    available[2] -= reqStaff;
+
+    // 4. Get all current allocations and max needs
+    List<Guest> guests = getAllGuests();
+    
+    // Add the new potential guest to the list
+    guests.add(new Guest(
+        new int[]{reqRegular, reqDeluxe, reqStaff},
+        new int[]{maxRegular, maxDeluxe, maxStaff}
+    ));
+
+    // 5. Implement Banker's safety algorithm
+    int[] work = Arrays.copyOf(available, available.length);
+    boolean[] finish = new boolean[guests.size()];
+    
+    // Initialize finish array
+    Arrays.fill(finish, false);
+    
+    // Find a guest that can finish with current work
+    boolean found;
+    do {
+        found = false;
+        for (int i = 0; i < guests.size(); i++) {
+            if (!finish[i]) {
+                Guest g = guests.get(i);
+                int[] need = g.getNeed();
+                
+                if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
+                    // This guest can finish - pretend to release their resources
+                    work[0] += g.allocated[0];
+                    work[1] += g.allocated[1];
+                    work[2] += g.allocated[2];
+                    finish[i] = true;
+                    found = true;
+                }
+            }
+        }
+    } while (found);
+    
+    // If all guests can finish, the state is safe
+    for (boolean f : finish) {
+        if (!f) return false;
+    }
+    
+    return true;
+}
+
+private List<Guest> getAllGuests() {
+    List<Guest> guests = new ArrayList<>();
+    String query = "SELECT guest_name, allocated_regular, allocated_deluxe, allocated_staff, " +
+                  "max_regular, max_deluxe, max_staff FROM guests";
+    
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            guests.add(new Guest(
+                rs.getString("guest_name"),
+                rs.getInt("allocated_regular"),
+                rs.getInt("allocated_deluxe"),
+                rs.getInt("allocated_staff"),
+                rs.getInt("max_regular"),
+                rs.getInt("max_deluxe"),
+                rs.getInt("max_staff")
+            ));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return guests;
+}
 }
