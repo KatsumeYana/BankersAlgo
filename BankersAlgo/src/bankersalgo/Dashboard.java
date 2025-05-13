@@ -483,17 +483,17 @@ public class Dashboard extends javax.swing.JFrame {
 
         jtblNeedsRequests.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Guest ", "Need Regular", "Need Deluxe", "Need Staff", "Req. Regular", "Req. Deluxe", "Req. Staff", "Status"
+                "Guest ", "Need Deluxe", "Need Staff", "Req. Regular", "Req. Deluxe", "Req. Staff", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -501,9 +501,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jScrollPaneDashboard1.setViewportView(jtblNeedsRequests);
-        if (jtblNeedsRequests.getColumnModel().getColumnCount() > 0) {
-            jtblNeedsRequests.getColumnModel().getColumn(1).setHeaderValue("Title 2");
-        }
 
         jtblResourceStatus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -513,7 +510,7 @@ public class Dashboard extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Resource  ", "Max", "Allocated (G1 +G3)", "Available", "Status"
+                "Resource  ", "Max", "Allocated", "Available", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -662,7 +659,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPaneDashboard;
     private javax.swing.JScrollPane jScrollPaneDashboard1;
