@@ -11,7 +11,7 @@ public class Main {
         // Then, launch the login form
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginForm().setVisible(true);
+                new Login().setVisible(true);
             
             }
         });
