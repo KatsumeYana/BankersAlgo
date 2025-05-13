@@ -12,7 +12,6 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoginForm().setVisible(true);
-                new Dashboard().setVisible(true);
             
             }
         });

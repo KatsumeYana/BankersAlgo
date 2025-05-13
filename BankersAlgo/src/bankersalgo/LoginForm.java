@@ -22,7 +22,7 @@ public class LoginForm extends JFrame  {
      * Creates new form login
      */
     public LoginForm() {
-        setTitle("Login");
+        setTitle("The Olde Heart Hotel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         initComponents();

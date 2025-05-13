@@ -462,17 +462,17 @@ public class Dashboard extends javax.swing.JFrame {
 
         jtblGuestAllocations.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Guest ", "Title 2", "Alloc. Regular", "Alloc. Deluxe", "Alloc. Staff", "Max Regular", "Max Deluxe", "Max Staff"
+                "Guest ", "Alloc. Regular", "Alloc. Deluxe", "Alloc. Staff", "Max Regular", "Max Deluxe", "Max Staff"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -501,6 +501,9 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jScrollPaneDashboard1.setViewportView(jtblNeedsRequests);
+        if (jtblNeedsRequests.getColumnModel().getColumnCount() > 0) {
+            jtblNeedsRequests.getColumnModel().getColumn(1).setHeaderValue("Title 2");
+        }
 
         jtblResourceStatus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -569,7 +572,7 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addComponent(jlblTitleDashboard)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
