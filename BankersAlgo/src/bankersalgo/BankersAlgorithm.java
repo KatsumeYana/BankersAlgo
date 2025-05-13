@@ -162,7 +162,6 @@ public class BankersAlgorithm {
             int allocRegular = rs.getInt("allocated_regular");
             int allocDeluxe = rs.getInt("allocated_deluxe");
             int allocStaff = rs.getInt("allocated_staff");
-            Timestamp checkInTime = rs.getTimestamp("check_in_time");
 
             // Show confirmation dialog with guest info
             StringBuilder guestInfo = new StringBuilder("✓ Guest Found:\n\n");
@@ -170,7 +169,6 @@ public class BankersAlgorithm {
             guestInfo.append("Regular Suites: ").append(allocRegular).append("\n");
             guestInfo.append("Deluxe Suites: ").append(allocDeluxe).append("\n");
             guestInfo.append("House Staff Assigned: ").append(allocStaff).append("\n");
-            guestInfo.append("Check-In Time: ").append(checkInTime).append("\n\n");
             guestInfo.append("Would you like to complete the check-out?");
 
             int confirm = JOptionPane.showConfirmDialog(null, guestInfo.toString(),

@@ -22,7 +22,7 @@ import javax.swing.table.*;
 public class Dashboard extends javax.swing.JFrame {
     
     private BankersAlgorithm bankersAlgo = new BankersAlgorithm();
-    private static final String PLACEHOLDER_TEXT = "Enter guest name"; 
+    private static final String PLACEHODER_GUEST = "Enter guest name"; 
     
     public Dashboard() {
         this.setLocationRelativeTo(null);
@@ -45,8 +45,13 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPaneDashboard2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneDashboard2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jScrollPaneDashboard2.setViewportView(jtblResourceStatus);
+        //Dashboard - Resource Status
+        jScrollPaneArchived.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneArchived.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPaneArchived.setViewportView(jtblArchived);
     
-        placeHolderEffect(); //placee holder animation
+        placeHolderEffect(jtxtFieldSearchBar, "Enter guest name");
+        placeHolderEffect(jtxtFieldGuest, "Enter guest name");
         updateAvailabilityLabels(); //updates the tale while showing
         updateResourceStatusTable(); //updates the status table in the dashboard
         updateNeedsRequestsTable() ;
@@ -92,18 +97,22 @@ public class Dashboard extends javax.swing.JFrame {
         jbtnConfirmAllocation = new javax.swing.JButton();
         jtxtFieldGuest = new javax.swing.JTextField();
         jDialogCheckout = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
         jlblTitleCheckout = new javax.swing.JLabel();
         jlblSearch = new javax.swing.JLabel();
         jtxtFieldSearch = new javax.swing.JTextField();
         jlblNote = new javax.swing.JLabel();
         jbtnCheckoutClose = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        jbtnSubmit = new javax.swing.JButton();
+        jbtnCheckoutSearch = new javax.swing.JButton();
         jDialogArchived = new javax.swing.JDialog();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPaneArchived = new javax.swing.JScrollPane();
+        jtblArchived = new javax.swing.JTable();
+        jScrollPaneArchived = new javax.swing.JScrollPane();
+        jtblArchived = new javax.swing.JTable();
         jbtnCloseArchived = new javax.swing.JButton();
-        jtxtFieldSearchBard = new javax.swing.JTextField();
+        jtxtFieldSearchBar = new javax.swing.JTextField();
         jbtnSearch = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -254,14 +263,6 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jtxtFieldGuest.setText("Enter Guest Name");
-        jtxtFieldGuest.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jtxtFieldGuestFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jtxtFieldGuestFocusLost(evt);
-            }
-        });
         jtxtFieldGuest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtFieldGuestActionPerformed(evt);
@@ -314,7 +315,7 @@ public class Dashboard extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 113, Short.MAX_VALUE)))
+                        .addGap(0, 115, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jlblTitleCheckin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -379,28 +380,40 @@ public class Dashboard extends javax.swing.JFrame {
         jDialogCheckin.getContentPane().setLayout(jDialogCheckinLayout);
         jDialogCheckinLayout.setHorizontalGroup(
             jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDialogCheckinLayout.setVerticalGroup(
             jDialogCheckinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jDialogCheckout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jDialogCheckout.setMinimumSize(new java.awt.Dimension(474, 646));
+        jDialogCheckout.setMaximumSize(new java.awt.Dimension(574, 318));
+        jDialogCheckout.setMinimumSize(new java.awt.Dimension(574, 318));
+        jDialogCheckout.setResizable(false);
 
+        jPanel4.setBackground(new java.awt.Color(243, 212, 178));
+
+        jlblTitleCheckout.setFont(new java.awt.Font("Afacad", 1, 48)); // NOI18N
+        jlblTitleCheckout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblTitleCheckout.setText("Guest Check-Out");
 
+        jlblSearch.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
         jlblSearch.setText("Search guest");
 
+        jtxtFieldSearch.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
         jtxtFieldSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtFieldSearchActionPerformed(evt);
             }
         });
 
+        jlblNote.setFont(new java.awt.Font("Afacad", 1, 14)); // NOI18N
         jlblNote.setText("Start typing to find your reservation");
 
+        jbtnCheckoutClose.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnCheckoutClose.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
+        jbtnCheckoutClose.setForeground(new java.awt.Color(255, 238, 219));
         jbtnCheckoutClose.setText("Close");
         jbtnCheckoutClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -408,69 +421,143 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jbtnSubmit.setText("Complete Check-Out");
+        jbtnCheckoutSearch.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnCheckoutSearch.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
+        jbtnCheckoutSearch.setForeground(new java.awt.Color(255, 238, 219));
+        jbtnCheckoutSearch.setText("Search");
+        jbtnCheckoutSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCheckoutSearchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2)
+                    .addComponent(jlblTitleCheckout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlblSearch)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jlblNote))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jtxtFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jbtnCheckoutSearch))))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(238, 238, 238)
+                                .addComponent(jbtnCheckoutClose)))
+                        .addGap(0, 13, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jlblTitleCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jlblSearch)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCheckoutSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlblNote)
+                .addGap(66, 66, 66)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnCheckoutClose)
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jDialogCheckoutLayout = new javax.swing.GroupLayout(jDialogCheckout.getContentPane());
         jDialogCheckout.getContentPane().setLayout(jDialogCheckoutLayout);
         jDialogCheckoutLayout.setHorizontalGroup(
             jDialogCheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogCheckoutLayout.createSequentialGroup()
-                .addGroup(jDialogCheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialogCheckoutLayout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jlblNote))
-                    .addGroup(jDialogCheckoutLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(jDialogCheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxtFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlblTitleCheckout)
-                            .addComponent(jlblSearch))))
-                .addContainerGap(38, Short.MAX_VALUE))
-            .addGroup(jDialogCheckoutLayout.createSequentialGroup()
-                .addComponent(jSeparator2)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCheckoutLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jbtnCheckoutClose)
-                .addGap(35, 35, 35)
-                .addComponent(jbtnSubmit)
-                .addGap(38, 38, 38))
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDialogCheckoutLayout.setVerticalGroup(
             jDialogCheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogCheckoutLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jlblTitleCheckout)
-                .addGap(29, 29, 29)
-                .addComponent(jlblSearch)
-                .addGap(18, 18, 18)
-                .addComponent(jtxtFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlblNote)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 396, Short.MAX_VALUE)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addGroup(jDialogCheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnCheckoutClose)
-                    .addComponent(jbtnSubmit))
-                .addGap(30, 30, 30))
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jDialogArchived.setAutoRequestFocus(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel5.setBackground(new java.awt.Color(243, 212, 178));
+
+        jtblArchived.setBackground(new java.awt.Color(255, 238, 219));
+        jtblArchived.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jtblArchived.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Guest", " Alloc. Regular", " Alloc. Deluxe ", "Alloc. Staff", "Max Regular", "Max Deluxe", "Max Staff"
             }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtblArchived.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneArchived.setViewportView(jtblArchived);
+
+        jtblArchived.setBackground(new java.awt.Color(255, 238, 219));
+        jtblArchived.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jtblArchived.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Guest", " Alloc. Regular", " Alloc. Deluxe ", "Alloc. Staff", "Max Regular", "Max Deluxe", "Max Staff"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtblArchived.getTableHeader().setReorderingAllowed(false);
+        jScrollPaneArchived.setViewportView(jtblArchived);
+
+        jbtnCloseArchived.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnCloseArchived.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jbtnCloseArchived.setForeground(new java.awt.Color(255, 238, 219));
         jbtnCloseArchived.setText("Close");
         jbtnCloseArchived.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,49 +565,75 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jtxtFieldSearchBard.setText("jTextField1");
+        jtxtFieldSearchBar.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jtxtFieldSearchBar.setText("Enter guest name");
+        jtxtFieldSearchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtFieldSearchBarActionPerformed(evt);
+            }
+        });
 
+        jbtnSearch.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnSearch.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jbtnSearch.setForeground(new java.awt.Color(255, 238, 219));
         jbtnSearch.setText("Search");
+        jbtnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSearchActionPerformed(evt);
+            }
+        });
 
+        jLabel1.setFont(new java.awt.Font("Afacad", 1, 48)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Archived Records");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jtxtFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbtnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jbtnCloseArchived)
+                            .addComponent(jScrollPaneArchived, javax.swing.GroupLayout.PREFERRED_SIZE, 734, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtFieldSearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnSearch))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneArchived, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnCloseArchived)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jDialogArchivedLayout = new javax.swing.GroupLayout(jDialogArchived.getContentPane());
         jDialogArchived.getContentPane().setLayout(jDialogArchivedLayout);
         jDialogArchivedLayout.setHorizontalGroup(
             jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogArchivedLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbtnCloseArchived)
-                .addGap(52, 52, 52))
-            .addGroup(jDialogArchivedLayout.createSequentialGroup()
-                .addGroup(jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialogArchivedLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jDialogArchivedLayout.createSequentialGroup()
-                                .addComponent(jtxtFieldSearchBard, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbtnSearch))))
-                    .addGroup(jDialogArchivedLayout.createSequentialGroup()
-                        .addGap(396, 396, 396)
-                        .addComponent(jLabel1)))
-                .addContainerGap(68, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDialogArchivedLayout.setVerticalGroup(
             jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogArchivedLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1)
-                .addGap(33, 33, 33)
-                .addGroup(jDialogArchivedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtFieldSearchBard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtnSearch))
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jbtnCloseArchived)
-                .addGap(21, 21, 21))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -621,7 +734,7 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPaneDashboard2.setViewportView(jtblResourceStatus);
 
         jbtnCheckin.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnCheckin.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jbtnCheckin.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
         jbtnCheckin.setForeground(new java.awt.Color(255, 238, 219));
         jbtnCheckin.setText("Checkin");
         jbtnCheckin.addActionListener(new java.awt.event.ActionListener() {
@@ -631,7 +744,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jbtnCheckout.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnCheckout.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jbtnCheckout.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
         jbtnCheckout.setForeground(new java.awt.Color(255, 238, 219));
         jbtnCheckout.setText("Checkout");
         jbtnCheckout.addActionListener(new java.awt.event.ActionListener() {
@@ -641,7 +754,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jbtnArchived.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnArchived.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
+        jbtnArchived.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
         jbtnArchived.setForeground(new java.awt.Color(255, 238, 219));
         jbtnArchived.setText("Archived");
         jbtnArchived.addActionListener(new java.awt.event.ActionListener() {
@@ -651,6 +764,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         jbtnLogout.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnLogout.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
         jbtnLogout.setForeground(new java.awt.Color(255, 238, 219));
         jbtnLogout.setText("Logout");
         jbtnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -713,7 +827,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jlblResourceStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneDashboard2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -830,20 +944,6 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtnSafelyActionPerformed
 
-    private void jtxtFieldGuestFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtFieldGuestFocusGained
-        if (jtxtFieldGuest.getText().equals("Enter guest name")) {
-            jtxtFieldGuest.setText("");
-            jtxtFieldGuest.setForeground(Color.BLACK); // Change back to normal color
-        }
-    }//GEN-LAST:event_jtxtFieldGuestFocusGained
-
-    private void jtxtFieldGuestFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtFieldGuestFocusLost
-        if (jtxtFieldGuest.getText().trim().isEmpty()) {
-            jtxtFieldGuest.setText("Enter guest name");
-            jtxtFieldGuest.setForeground(new Color(153, 153, 153)); // Gray placeholder
-        }
-    }//GEN-LAST:event_jtxtFieldGuestFocusLost
-
     private void jtxtFieldGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldGuestActionPerformed
         jtxtFieldGuest.setText(null);
     }//GEN-LAST:event_jtxtFieldGuestActionPerformed
@@ -872,22 +972,43 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtnLogoutActionPerformed
 
+    private void jtxtFieldSearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldSearchBarActionPerformed
+      String keyword = jtxtFieldSearchBar.getText().trim();
+
+        if (!keyword.equals("") && !keyword.equals(PLACEHODER_GUEST)) {
+            searchArchivedRecords(keyword);
+        }
+    }//GEN-LAST:event_jtxtFieldSearchBarActionPerformed
+
+    private void jbtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSearchActionPerformed
+       jtxtFieldSearchBarActionPerformed(evt); // delegate to same logic
+    }//GEN-LAST:event_jbtnSearchActionPerformed
+
+    private void jbtnCheckoutSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckoutSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCheckoutSearchActionPerformed
+
  
 
-    public void placeHolderEffect(){
-        //Placeholder Animation        
-        jtxtFieldGuest.setText(PLACEHOLDER_TEXT);
-        jtxtFieldGuest.addFocusListener(new java.awt.event.FocusAdapter() {
+    public void placeHolderEffect(JTextField field, String placeholderText){
+        field.setForeground(Color.GRAY);
+        field.setText(placeholderText);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jtxtFieldGuestFocusGained(evt);
+                if (field.getText().equals(placeholderText)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
             }
+
+            @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jtxtFieldGuestFocusLost(evt);
-            }
-        });
-        jtxtFieldGuest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtFieldGuestActionPerformed(evt);
+                if (field.getText().trim().isEmpty()) {
+                    field.setText(placeholderText);
+                    field.setForeground(Color.GRAY);
+                }
             }
         });
     }
@@ -897,6 +1018,13 @@ public class Dashboard extends javax.swing.JFrame {
         bankersAlgo.updateGuestTable(jtblGuestAllocations);
         bankersAlgo.updateResourceDisplay(jtblResourceStatus);
         // Add similar calls for other tables if needed
+    }
+    //Searching in Archived
+    private void searchArchivedRecords(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) jtblArchived.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        jtblArchived.setRowSorter(sorter);
+        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + keyword)); // case-insensitive
     }
 
     /*------------------Functions for the Tables-----------------------*/
@@ -1031,7 +1159,9 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPaneArchived;
     private javax.swing.JScrollPane jScrollPaneDashboard;
     private javax.swing.JScrollPane jScrollPaneDashboard1;
     private javax.swing.JScrollPane jScrollPaneDashboard2;
@@ -1043,18 +1173,17 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner4;
     private javax.swing.JSpinner jSpinner5;
     private javax.swing.JSpinner jSpinner6;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbtnArchived;
     private javax.swing.JButton jbtnCheckin;
     private javax.swing.JButton jbtnCheckout;
     private javax.swing.JButton jbtnCheckoutClose;
+    private javax.swing.JButton jbtnCheckoutSearch;
     private javax.swing.JButton jbtnCloseArchived;
     private javax.swing.JButton jbtnCloseCheckin;
     private javax.swing.JButton jbtnConfirmAllocation;
     private javax.swing.JButton jbtnLogout;
     private javax.swing.JButton jbtnSafely;
     private javax.swing.JButton jbtnSearch;
-    private javax.swing.JButton jbtnSubmit;
     private javax.swing.JLabel jlblDeluxe;
     private javax.swing.JLabel jlblGuestAllocations;
     private javax.swing.JLabel jlblNeedRequests;
@@ -1067,11 +1196,12 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jlblTitleCheckin;
     private javax.swing.JLabel jlblTitleCheckout;
     private javax.swing.JLabel jlblTitleDashboard;
+    private javax.swing.JTable jtblArchived;
     private javax.swing.JTable jtblGuestAllocations;
     private javax.swing.JTable jtblNeedsRequests;
     private javax.swing.JTable jtblResourceStatus;
     private javax.swing.JTextField jtxtFieldGuest;
     private javax.swing.JTextField jtxtFieldSearch;
-    private javax.swing.JTextField jtxtFieldSearchBard;
+    private javax.swing.JTextField jtxtFieldSearchBar;
     // End of variables declaration//GEN-END:variables
 }
