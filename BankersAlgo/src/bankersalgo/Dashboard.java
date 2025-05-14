@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,10 +25,11 @@ import javax.swing.table.*;
  * @author Juliana
  */
 public class Dashboard extends javax.swing.JFrame {
-    
+
     private BankersAlgorithm banker = new BankersAlgorithm();
-    private static final String PLACEHODER_GUEST = "Enter guest name"; 
-    
+    private static final String PLACEHODER_GUEST = "Enter guest name";
+    private String selectedGuestName = null;
+
     public Dashboard() {
         this.setLocationRelativeTo(null);
         initComponents();
@@ -53,12 +55,12 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPaneArchived.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPaneArchived.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jScrollPaneArchived.setViewportView(jtblArchived);
-    
+
         placeHolderEffect(jtxtFieldSearchBar, "Enter guest name");
         placeHolderEffect(jtxtFieldGuest, "Enter guest name");
         updateAvailabilityLabels();
         refreshTables();
-        
+
     }
 
     /**
@@ -121,8 +123,6 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jSpinner8 = new javax.swing.JSpinner();
-        jLabel18 = new javax.swing.JLabel();
-        jSpinner9 = new javax.swing.JSpinner();
         jLabel19 = new javax.swing.JLabel();
         jSpinner10 = new javax.swing.JSpinner();
         jLabel20 = new javax.swing.JLabel();
@@ -136,9 +136,8 @@ public class Dashboard extends javax.swing.JFrame {
         jlblRegular1 = new javax.swing.JLabel();
         jlblDeluxe1 = new javax.swing.JLabel();
         jlblStaff1 = new javax.swing.JLabel();
-        jbtnCloseCheckin1 = new javax.swing.JButton();
-        jbtnSafely1 = new javax.swing.JButton();
-        jbtnConfirmAllocation1 = new javax.swing.JButton();
+        jbtnCloseEdit = new javax.swing.JButton();
+        jbtnConfirmEditActionPerformed = new javax.swing.JButton();
         jtxtFieldGuest1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jlblTitleDashboard = new javax.swing.JLabel();
@@ -636,11 +635,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         jSpinner8.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-        jLabel18.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
-        jLabel18.setText("Staff Need");
-
-        jSpinner9.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-
         jLabel19.setFont(new java.awt.Font("Afacad", 1, 24)); // NOI18N
         jLabel19.setText("Requested Room");
 
@@ -703,33 +697,23 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        jbtnCloseCheckin1.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnCloseCheckin1.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jbtnCloseCheckin1.setForeground(new java.awt.Color(243, 212, 178));
-        jbtnCloseCheckin1.setText("Close");
-        jbtnCloseCheckin1.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCloseEdit.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnCloseEdit.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
+        jbtnCloseEdit.setForeground(new java.awt.Color(243, 212, 178));
+        jbtnCloseEdit.setText("Close");
+        jbtnCloseEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCloseCheckin1ActionPerformed(evt);
+                jbtnCloseEditActionPerformed(evt);
             }
         });
 
-        jbtnSafely1.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnSafely1.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jbtnSafely1.setForeground(new java.awt.Color(243, 212, 178));
-        jbtnSafely1.setText("Verify Safety");
-        jbtnSafely1.addActionListener(new java.awt.event.ActionListener() {
+        jbtnConfirmEditActionPerformed.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnConfirmEditActionPerformed.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
+        jbtnConfirmEditActionPerformed.setForeground(new java.awt.Color(243, 212, 178));
+        jbtnConfirmEditActionPerformed.setText("Confirm Allocation");
+        jbtnConfirmEditActionPerformed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnSafely1ActionPerformed(evt);
-            }
-        });
-
-        jbtnConfirmAllocation1.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnConfirmAllocation1.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jbtnConfirmAllocation1.setForeground(new java.awt.Color(243, 212, 178));
-        jbtnConfirmAllocation1.setText("Confirm Allocation");
-        jbtnConfirmAllocation1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnConfirmAllocation1ActionPerformed(evt);
+                jbtnConfirmEditActionPerformedActionPerformed(evt);
             }
         });
 
@@ -757,11 +741,9 @@ public class Dashboard extends javax.swing.JFrame {
                                     .addComponent(jlblSearchGuest1)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jSpinner9)
                                             .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel16)
-                                                    .addComponent(jLabel18)
                                                     .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -791,11 +773,9 @@ public class Dashboard extends javax.swing.JFrame {
             .addComponent(jlblTitleCheckin1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbtnCloseCheckin1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbtnSafely1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbtnConfirmAllocation1)
+                .addComponent(jbtnCloseEdit)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnConfirmEditActionPerformed)
                 .addGap(65, 65, 65))
         );
         jPanel6Layout.setVerticalGroup(
@@ -817,11 +797,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpinner9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addGap(94, 94, 94)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -841,9 +817,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnCloseCheckin1)
-                    .addComponent(jbtnSafely1)
-                    .addComponent(jbtnConfirmAllocation1))
+                    .addComponent(jbtnCloseEdit)
+                    .addComponent(jbtnConfirmEditActionPerformed))
                 .addGap(117, 117, 117))
         );
 
@@ -1104,18 +1079,50 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnCheckinActionPerformed
 
     private void jbtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditActionPerformed
-        jDialogEdit.pack();
-        jDialogEdit.setLocationRelativeTo(this);
-        jDialogEdit.setVisible(true);
+        int selectedRow = jtblGuestAllocations.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a guest to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        selectedGuestName = jtblGuestAllocations.getValueAt(selectedRow, 0).toString(); // Save name globally
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "SELECT * FROM guests WHERE guest_name = ? AND status = 'Check-In'";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, selectedGuestName);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    // Populate dialog fields
+                    jtxtFieldGuest1.setText(rs.getString("guest_name"));
+                    jSpinner7.setValue(rs.getInt("allocated_regular"));
+                    jSpinner8.setValue(rs.getInt("allocated_deluxe"));
+
+                    jSpinner10.setValue(rs.getInt("max_regular"));
+                    jSpinner11.setValue(rs.getInt("max_deluxe"));
+                    jSpinner12.setValue(rs.getInt("max_staff"));
+
+                    jDialogEdit.pack();
+                    jDialogEdit.setLocationRelativeTo(this);
+                    jDialogEdit.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Guest not found or already checked out.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jbtnEditActionPerformed
 
     private void jbtnArchivedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnArchivedActionPerformed
         jDialogArchived.pack();
         jDialogArchived.setLocationRelativeTo(this);
-        handleArchivedRecords(); 
+        handleArchivedRecords();
         jDialogArchived.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jbtnArchivedActionPerformed
 
     private void jtxtFieldGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldGuestActionPerformed
@@ -1146,10 +1153,9 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbtnLogoutActionPerformed
 
-           
 
     private void jtxtFieldSearchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldSearchBarActionPerformed
-      String keyword = jtxtFieldSearchBar.getText().trim();
+        String keyword = jtxtFieldSearchBar.getText().trim();
 
         if (!keyword.equals("") && !keyword.equals(PLACEHODER_GUEST)) {
             searchArchivedRecords(keyword);
@@ -1157,7 +1163,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtFieldSearchBarActionPerformed
 
     private void jbtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSearchActionPerformed
-       String keyword = jtxtFieldSearchBar.getText().trim();
+        String keyword = jtxtFieldSearchBar.getText().trim();
         searchArchivedRecords(keyword);
     }//GEN-LAST:event_jbtnSearchActionPerformed
 
@@ -1166,273 +1172,278 @@ public class Dashboard extends javax.swing.JFrame {
         handleGuestCheckOut(searchName);
     }//GEN-LAST:event_jbtnCheckoutSearchActionPerformed
 
-    
+
     private void jbtnConfirmAllocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmAllocationActionPerformed
-                                    
-    // Get all input values
-    String guestName = jtxtFieldGuest.getText().trim();
-    
-    // Validate guest name
-    if (guestName.isEmpty() || guestName.equals(PLACEHODER_GUEST)) {
-        JOptionPane.showMessageDialog(this, "Please enter a valid guest name", "Input Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    // Get allocation values
-    int allocRegular = (Integer) jSpinner1.getValue();
-    int allocDeluxe = (Integer) jSpinner2.getValue();
-    int allocStaff = (allocRegular + allocDeluxe); // 1 staff per room
-    
-    // Get max need values
-    int maxRegular = (Integer) jSpinner4.getValue();
-    int maxDeluxe = (Integer) jSpinner5.getValue();
-    int maxStaff = (Integer) jSpinner6.getValue();
-    
-    // Validate that allocation doesn't exceed max need
-    if (allocRegular > maxRegular || allocDeluxe > maxDeluxe || allocStaff > maxStaff) {
-        JOptionPane.showMessageDialog(this, 
-            "Allocation cannot exceed maximum need!\n" +
-            "Regular: " + allocRegular + "/" + maxRegular + "\n" +
-            "Deluxe: " + allocDeluxe + "/" + maxDeluxe + "\n" +
-            "Staff: " + allocStaff + "/" + maxStaff,
-            "Allocation Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    try (Connection conn = DatabaseConnection.getConnection()) {
-        conn.setAutoCommit(false); // Start transaction
-        
-        try {
-            // 1. Check if guest already exists
-            String checkSql = "SELECT COUNT(*) FROM guests WHERE guest_name = ? AND status = 'Check-In'";
-            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
-                checkStmt.setString(1, guestName);
-                ResultSet rs = checkStmt.executeQuery();
-                if (rs.next() && rs.getInt(1) > 0) {
-                    JOptionPane.showMessageDialog(this, 
-                        "Guest " + guestName + " is already checked in!", 
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            
-            // 2. Check available resources
-            String availSql = "SELECT resource_type, available FROM resource_allocation";
-            int availRegular = 0;
-            int availDeluxe = 0;
-            int availStaff = 0;
-            
-            try (PreparedStatement availStmt = conn.prepareStatement(availSql);
-                 ResultSet rs = availStmt.executeQuery()) {
-                while (rs.next()) {
-                    switch (rs.getString("resource_type")) {
-                        case "regular_suite" -> availRegular = rs.getInt("available");
-                        case "deluxe_suite" -> availDeluxe = rs.getInt("available");
-                        case "house_staff" -> availStaff = rs.getInt("available");
+
+        // Get all input values
+        String guestName = jtxtFieldGuest.getText().trim();
+
+        // Validate guest name
+        if (guestName.isEmpty() || guestName.equals(PLACEHODER_GUEST)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid guest name", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Get allocation values
+        int allocRegular = (Integer) jSpinner1.getValue();
+        int allocDeluxe = (Integer) jSpinner2.getValue();
+        int allocStaff = (allocRegular + allocDeluxe); // 1 staff per room
+
+        // Get max need values
+        int maxRegular = (Integer) jSpinner4.getValue();
+        int maxDeluxe = (Integer) jSpinner5.getValue();
+        int maxStaff = (Integer) jSpinner6.getValue();
+
+        // Validate that allocation doesn't exceed max need
+        if (allocRegular > maxRegular || allocDeluxe > maxDeluxe || allocStaff > maxStaff) {
+            JOptionPane.showMessageDialog(this,
+                    "Allocation cannot exceed maximum need!\n"
+                    + "Regular: " + allocRegular + "/" + maxRegular + "\n"
+                    + "Deluxe: " + allocDeluxe + "/" + maxDeluxe + "\n"
+                    + "Staff: " + allocStaff + "/" + maxStaff,
+                    "Allocation Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
+
+            try {
+                // 1. Check if guest already exists
+                String checkSql = "SELECT COUNT(*) FROM guests WHERE guest_name = ? AND status = 'Check-In'";
+                try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                    checkStmt.setString(1, guestName);
+                    ResultSet rs = checkStmt.executeQuery();
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        JOptionPane.showMessageDialog(this,
+                                "Guest " + guestName + " is already checked in!",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 }
-            }
-            
-            // Check basic availability
-            if (allocRegular > availRegular || allocDeluxe > availDeluxe || allocStaff > availStaff) {
-                StringBuilder errorMsg = new StringBuilder("✗ Not enough available resources:\n");
-                
-                if (allocRegular > availRegular) {
-                    errorMsg.append("• Regular Suites: Requested ").append(allocRegular)
-                           .append(", Available ").append(availRegular).append("\n");
-                }
-                if (allocDeluxe > availDeluxe) {
-                    errorMsg.append("• Deluxe Suites: Requested ").append(allocDeluxe)
-                           .append(", Available ").append(availDeluxe).append("\n");
-                }
-                if (allocStaff > availStaff) {
-                    errorMsg.append("• House Staff: Requested ").append(allocStaff)
-                           .append(", Available ").append(availStaff).append("\n");
-                }
-                
-                errorMsg.append("\nPlease adjust your request.");
-                
-                JOptionPane.showMessageDialog(this, errorMsg.toString(),
-                    "Insufficient Resources", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            // 3. Check safety using Banker's algorithm
-            // Get current allocations and max needs
-            String allocSql = "SELECT allocated_regular, allocated_deluxe, allocated_staff, " +
-                            "max_regular, max_deluxe, max_staff FROM guests WHERE status = 'Check-In'";
-            
-            List<int[]> allocations = new ArrayList<>();
-            List<int[]> maxNeeds = new ArrayList<>();
-            int[] work = {availRegular, availDeluxe, availStaff};
-            
-            try (PreparedStatement allocStmt = conn.prepareStatement(allocSql);
-                 ResultSet rs = allocStmt.executeQuery()) {
-                while (rs.next()) {
-                    int[] alloc = {
-                        rs.getInt("allocated_regular"),
-                        rs.getInt("allocated_deluxe"),
-                        rs.getInt("allocated_staff")
-                    };
-                    int[] max = {
-                        rs.getInt("max_regular"),
-                        rs.getInt("max_deluxe"),
-                        rs.getInt("max_staff")
-                    };
-                    allocations.add(alloc);
-                    maxNeeds.add(max);
-                }
-            }
-            
-            // Add the new potential allocation
-            allocations.add(new int[]{allocRegular, allocDeluxe, allocStaff});
-            maxNeeds.add(new int[]{maxRegular, maxDeluxe, maxStaff});
-            
-            // Initialize work vector (available resources after granting this request)
-            work[0] -= allocRegular;
-            work[1] -= allocDeluxe;
-            work[2] -= allocStaff;
-            
-            // Banker's safety algorithm
-            boolean[] finish = new boolean[allocations.size()];
-            boolean found;
-            
-            do {
-                found = false;
-                for (int i = 0; i < allocations.size(); i++) {
-                    if (!finish[i]) {
-                        int[] need = {
-                            maxNeeds.get(i)[0] - allocations.get(i)[0],
-                            maxNeeds.get(i)[1] - allocations.get(i)[1],
-                            maxNeeds.get(i)[2] - allocations.get(i)[2]
-                        };
-                        
-                        if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
-                            // Pretend this process finishes and releases its resources
-                            work[0] += allocations.get(i)[0];
-                            work[1] += allocations.get(i)[1];
-                            work[2] += allocations.get(i)[2];
-                            finish[i] = true;
-                            found = true;
+
+                // 2. Check available resources
+                String availSql = "SELECT resource_type, available FROM resource_allocation";
+                int availRegular = 0;
+                int availDeluxe = 0;
+                int availStaff = 0;
+
+                try (PreparedStatement availStmt = conn.prepareStatement(availSql); ResultSet rs = availStmt.executeQuery()) {
+                    while (rs.next()) {
+                        switch (rs.getString("resource_type")) {
+                            case "regular_suite" ->
+                                availRegular = rs.getInt("available");
+                            case "deluxe_suite" ->
+                                availDeluxe = rs.getInt("available");
+                            case "house_staff" ->
+                                availStaff = rs.getInt("available");
                         }
                     }
                 }
-            } while (found);
-            
-            // Check if all processes can finish
-            boolean safe = true;
-            for (boolean f : finish) {
-                if (!f) {
-                    safe = false;
-                    break;
+
+                // Check basic availability
+                if (allocRegular > availRegular || allocDeluxe > availDeluxe || allocStaff > availStaff) {
+                    StringBuilder errorMsg = new StringBuilder("✗ Not enough available resources:\n");
+
+                    if (allocRegular > availRegular) {
+                        errorMsg.append("• Regular Suites: Requested ").append(allocRegular)
+                                .append(", Available ").append(availRegular).append("\n");
+                    }
+                    if (allocDeluxe > availDeluxe) {
+                        errorMsg.append("• Deluxe Suites: Requested ").append(allocDeluxe)
+                                .append(", Available ").append(availDeluxe).append("\n");
+                    }
+                    if (allocStaff > availStaff) {
+                        errorMsg.append("• House Staff: Requested ").append(allocStaff)
+                                .append(", Available ").append(availStaff).append("\n");
+                    }
+
+                    errorMsg.append("\nPlease adjust your request.");
+
+                    JOptionPane.showMessageDialog(this, errorMsg.toString(),
+                            "Insufficient Resources", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
-            }
-            
-            if (!safe) {
+
+                // 3. Check safety using Banker's algorithm
+                // Get current allocations and max needs
+                String allocSql = "SELECT allocated_regular, allocated_deluxe, allocated_staff, "
+                        + "max_regular, max_deluxe, max_staff FROM guests WHERE status = 'Check-In'";
+
+                List<int[]> allocations = new ArrayList<>();
+                List<int[]> maxNeeds = new ArrayList<>();
+                int[] work = {availRegular, availDeluxe, availStaff};
+
+                try (PreparedStatement allocStmt = conn.prepareStatement(allocSql); ResultSet rs = allocStmt.executeQuery()) {
+                    while (rs.next()) {
+                        int[] alloc = {
+                            rs.getInt("allocated_regular"),
+                            rs.getInt("allocated_deluxe"),
+                            rs.getInt("allocated_staff")
+                        };
+                        int[] max = {
+                            rs.getInt("max_regular"),
+                            rs.getInt("max_deluxe"),
+                            rs.getInt("max_staff")
+                        };
+                        allocations.add(alloc);
+                        maxNeeds.add(max);
+                    }
+                }
+
+                // Add the new potential allocation
+                allocations.add(new int[]{allocRegular, allocDeluxe, allocStaff});
+                maxNeeds.add(new int[]{maxRegular, maxDeluxe, maxStaff});
+
+                // Initialize work vector (available resources after granting this request)
+                work[0] -= allocRegular;
+                work[1] -= allocDeluxe;
+                work[2] -= allocStaff;
+
+                // Banker's safety algorithm
+                boolean[] finish = new boolean[allocations.size()];
+                boolean found;
+
+                do {
+                    found = false;
+                    for (int i = 0; i < allocations.size(); i++) {
+                        if (!finish[i]) {
+                            int[] need = {
+                                maxNeeds.get(i)[0] - allocations.get(i)[0],
+                                maxNeeds.get(i)[1] - allocations.get(i)[1],
+                                maxNeeds.get(i)[2] - allocations.get(i)[2]
+                            };
+
+                            if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
+                                // Pretend this process finishes and releases its resources
+                                work[0] += allocations.get(i)[0];
+                                work[1] += allocations.get(i)[1];
+                                work[2] += allocations.get(i)[2];
+                                finish[i] = true;
+                                found = true;
+                            }
+                        }
+                    }
+                } while (found);
+
+                // Check if all processes can finish
+                boolean safe = true;
+                for (boolean f : finish) {
+                    if (!f) {
+                        safe = false;
+                        break;
+                    }
+                }
+
+                if (!safe) {
+                    JOptionPane.showMessageDialog(this,
+                            "✗ This allocation would make the system unsafe.\n"
+                            + "Please reduce your resource requests.",
+                            "Unsafe Allocation", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // 4. Show confirmation dialog
+                int confirm = JOptionPane.showConfirmDialog(
+                        this,
+                        "✓ Allocation is safe!\n\n"
+                        + "Guest Name: " + guestName + "\n"
+                        + "Allocation:\n"
+                        + " - Regular Suites: " + allocRegular + "\n"
+                        + " - Deluxe Suites: " + allocDeluxe + "\n"
+                        + " - Staff: " + allocStaff + "\n\n"
+                        + "Maximum Needs:\n"
+                        + " - Regular: " + maxRegular + "\n"
+                        + " - Deluxe: " + maxDeluxe + "\n"
+                        + " - Staff: " + maxStaff + "\n\n"
+                        + "Confirm check-in?",
+                        "Confirm Allocation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+
+                if (confirm != JOptionPane.YES_OPTION) {
+                    return;
+                }
+
+                // 5. Insert new guest allocation
+                String insertSql = "INSERT INTO guests (guest_name, allocated_regular, allocated_deluxe, allocated_staff, "
+                        + "max_regular, max_deluxe, max_staff, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Check-In')";
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                    insertStmt.setString(1, guestName);
+                    insertStmt.setInt(2, allocRegular);
+                    insertStmt.setInt(3, allocDeluxe);
+                    insertStmt.setInt(4, allocStaff);
+                    insertStmt.setInt(5, maxRegular);
+                    insertStmt.setInt(6, maxDeluxe);
+                    insertStmt.setInt(7, maxStaff);
+                    insertStmt.executeUpdate();
+                }
+
+                // 6. Update resource allocations
+                String updateSql = "UPDATE resource_allocation SET "
+                        + "allocated = allocated + ?, "
+                        + "available = available - ? "
+                        + "WHERE resource_type = ?";
+
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                    // Update regular suites
+                    updateStmt.setInt(1, allocRegular);
+                    updateStmt.setInt(2, allocRegular);
+                    updateStmt.setString(3, "regular_suite");
+                    updateStmt.executeUpdate();
+
+                    // Update deluxe suites
+                    updateStmt.setInt(1, allocDeluxe);
+                    updateStmt.setInt(2, allocDeluxe);
+                    updateStmt.setString(3, "deluxe_suite");
+                    updateStmt.executeUpdate();
+
+                    // Update staff
+                    updateStmt.setInt(1, allocStaff);
+                    updateStmt.setInt(2, allocStaff);
+                    updateStmt.setString(3, "house_staff");
+                    updateStmt.executeUpdate();
+                }
+
+                conn.commit(); // Commit transaction
+
                 JOptionPane.showMessageDialog(this,
-                    "✗ This allocation would make the system unsafe.\n" +
-                    "Please reduce your resource requests.",
-                    "Unsafe Allocation", JOptionPane.WARNING_MESSAGE);
-                return;
+                        "Check-In successful for " + guestName,
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                // Reset form
+                jtxtFieldGuest.setText(PLACEHODER_GUEST);
+                jtxtFieldGuest.setForeground(Color.GRAY);
+                jSpinner1.setValue(0);
+                jSpinner2.setValue(0);
+                jSpinner4.setValue(0);
+                jSpinner5.setValue(0);
+                jSpinner6.setValue(0);
+
+                jDialogCheckin.setVisible(false);
+
+                // Refresh displays
+                refreshTables();
+                updateAvailabilityLabels();
+
+                // Update Needs/Requests Table (2nd Table)
+                int[] request = {allocRegular, allocDeluxe, allocStaff};
+                updateNeedsRequestsTable(jtblNeedsRequests, request, guestName);
+
+            } catch (SQLException e) {
+                conn.rollback();
+                JOptionPane.showMessageDialog(this,
+                        "Database error: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
             }
-            
-            // 4. Show confirmation dialog
-            int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "✓ Allocation is safe!\n\n" +
-                "Guest Name: " + guestName + "\n" +
-                "Allocation:\n" +
-                " - Regular Suites: " + allocRegular + "\n" +
-                " - Deluxe Suites: " + allocDeluxe + "\n" +
-                " - Staff: " + allocStaff + "\n\n" +
-                "Maximum Needs:\n" +
-                " - Regular: " + maxRegular + "\n" +
-                " - Deluxe: " + maxDeluxe + "\n" +
-                " - Staff: " + maxStaff + "\n\n" +
-                "Confirm check-in?",
-                "Confirm Allocation",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-            );
-            
-            if (confirm != JOptionPane.YES_OPTION) {
-                return;
-            }
-            
-            // 5. Insert new guest allocation
-            String insertSql = "INSERT INTO guests (guest_name, allocated_regular, allocated_deluxe, allocated_staff, " +
-                             "max_regular, max_deluxe, max_staff, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Check-In')";
-            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
-                insertStmt.setString(1, guestName);
-                insertStmt.setInt(2, allocRegular);
-                insertStmt.setInt(3, allocDeluxe);
-                insertStmt.setInt(4, allocStaff);
-                insertStmt.setInt(5, maxRegular);
-                insertStmt.setInt(6, maxDeluxe);
-                insertStmt.setInt(7, maxStaff);
-                insertStmt.executeUpdate();
-            }
-            
-            // 6. Update resource allocations
-            String updateSql = "UPDATE resource_allocation SET " +
-                             "allocated = allocated + ?, " +
-                             "available = available - ? " +
-                             "WHERE resource_type = ?";
-            
-            try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
-                // Update regular suites
-                updateStmt.setInt(1, allocRegular);
-                updateStmt.setInt(2, allocRegular);
-                updateStmt.setString(3, "regular_suite");
-                updateStmt.executeUpdate();
-                
-                // Update deluxe suites
-                updateStmt.setInt(1, allocDeluxe);
-                updateStmt.setInt(2, allocDeluxe);
-                updateStmt.setString(3, "deluxe_suite");
-                updateStmt.executeUpdate();
-                
-                // Update staff
-                updateStmt.setInt(1, allocStaff);
-                updateStmt.setInt(2, allocStaff);
-                updateStmt.setString(3, "house_staff");
-                updateStmt.executeUpdate();
-            }
-            
-            conn.commit(); // Commit transaction
-            
-            JOptionPane.showMessageDialog(this, 
-                "Check-In successful for " + guestName, 
-                "Success", JOptionPane.INFORMATION_MESSAGE);
-            
-            // Reset form
-            jtxtFieldGuest.setText(PLACEHODER_GUEST);
-            jtxtFieldGuest.setForeground(Color.GRAY);
-            jSpinner1.setValue(0);
-            jSpinner2.setValue(0);
-            jSpinner4.setValue(0);
-            jSpinner5.setValue(0);
-            jSpinner6.setValue(0);
-            
-            jDialogCheckin.setVisible(false);
-            
-            // Refresh displays
-            refreshTables();
-            updateAvailabilityLabels();
-            
         } catch (SQLException e) {
-            conn.rollback();
-            JOptionPane.showMessageDialog(this, 
-                "Database error: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Connection error: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(this, 
-            "Connection error: " + e.getMessage(), 
-            "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
 
     }//GEN-LAST:event_jbtnConfirmAllocationActionPerformed
 
@@ -1440,25 +1451,106 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCheckout1ActionPerformed
 
-    private void jbtnCloseCheckin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseCheckin1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnCloseCheckin1ActionPerformed
+    private void jbtnCloseEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseEditActionPerformed
+        jDialogEdit.setVisible(false);
+        int[] request = {allocRegular, allocDeluxe, allocStaff};
+        updateNeedsRequestsTable(tableNeedsRequests, request, guestName);
+    }//GEN-LAST:event_jbtnCloseEditActionPerformed
 
-    private void jbtnSafely1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSafely1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnSafely1ActionPerformed
+    private void jbtnConfirmEditActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmEditActionPerformedActionPerformed
+        if (selectedGuestName == null) {
+            JOptionPane.showMessageDialog(this, "No guest selected for editing.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    private void jbtnConfirmAllocation1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmAllocation1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnConfirmAllocation1ActionPerformed
+        String guestName = selectedGuestName;
+
+        int allocRegular = (Integer) jSpinner7.getValue();
+        int allocDeluxe = (Integer) jSpinner8.getValue();
+        int allocStaff = allocRegular + allocDeluxe;
+
+        int maxRegular = (Integer) jSpinner10.getValue();
+        int maxDeluxe = (Integer) jSpinner11.getValue();
+        int maxStaff = (Integer) jSpinner12.getValue();
+
+        // Use same validation + Banker's algorithm logic here...
+        // After safety check and confirmation
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            // 1. Get current allocations from DB
+            String currentSql = "SELECT allocated_regular, allocated_deluxe, allocated_staff FROM guests WHERE guest_name = ? AND status = 'Check-In'";
+            int oldRegular = 0, oldDeluxe = 0, oldStaff = 0;
+
+            try (PreparedStatement stmt = conn.prepareStatement(currentSql)) {
+                stmt.setString(1, guestName);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    oldRegular = rs.getInt("allocated_regular");
+                    oldDeluxe = rs.getInt("allocated_deluxe");
+                    oldStaff = rs.getInt("allocated_staff");
+                }
+            }
+
+            // 2. Update guest record
+            String updateGuestSql = "UPDATE guests SET allocated_regular=?, allocated_deluxe=?, allocated_staff=?, "
+                    + "max_regular=?, max_deluxe=?, max_staff=? WHERE guest_name=? AND status = 'Check-In'";
+            try (PreparedStatement stmt = conn.prepareStatement(updateGuestSql)) {
+                stmt.setInt(1, allocRegular);
+                stmt.setInt(2, allocDeluxe);
+                stmt.setInt(3, allocStaff);
+                stmt.setInt(4, maxRegular);
+                stmt.setInt(5, maxDeluxe);
+                stmt.setInt(6, maxStaff);
+                stmt.setString(7, guestName);
+                stmt.executeUpdate();
+            }
+
+            // 3. Adjust resource_allocation
+            String updateResSql = "UPDATE resource_allocation SET allocated = allocated + ?, available = available - ? WHERE resource_type = ?";
+
+            try (PreparedStatement stmt = conn.prepareStatement(updateResSql)) {
+                // Regular
+                int diff = allocRegular - oldRegular;
+                stmt.setInt(1, diff);
+                stmt.setInt(2, diff);
+                stmt.setString(3, "regular_suite");
+                stmt.executeUpdate();
+
+                // Deluxe
+                diff = allocDeluxe - oldDeluxe;
+                stmt.setInt(1, diff);
+                stmt.setInt(2, diff);
+                stmt.setString(3, "deluxe_suite");
+                stmt.executeUpdate();
+
+                // Staff
+                diff = allocStaff - oldStaff;
+                stmt.setInt(1, diff);
+                stmt.setInt(2, diff);
+                stmt.setString(3, "house_staff");
+                stmt.executeUpdate();
+            }
+
+            conn.commit();
+
+            JOptionPane.showMessageDialog(this, "Guest allocation updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            jDialogEdit.setVisible(false);
+            refreshTables();
+            updateAvailabilityLabels();
+            selectedGuestName = null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error updating guest: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbtnConfirmEditActionPerformedActionPerformed
 
     private void jtxtFieldGuest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldGuest1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtFieldGuest1ActionPerformed
 
- 
-
-    public void placeHolderEffect(JTextField field, String placeholderText){
+    public void placeHolderEffect(JTextField field, String placeholderText) {
         field.setForeground(Color.GRAY);
         field.setText(placeholderText);
 
@@ -1470,6 +1562,7 @@ public class Dashboard extends javax.swing.JFrame {
                     field.setForeground(Color.BLACK);
                 }
             }
+
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (field.getText().trim().isEmpty()) {
@@ -1484,8 +1577,9 @@ public class Dashboard extends javax.swing.JFrame {
     private void refreshTables() {
         banker.updateResourceDisplay(jtblResourceStatus);
         banker.updateGuestTable(jtblGuestAllocations);
-        
+
     }
+
     //Searching in Archived
     private void searchArchivedRecords(String keyword) {
         DefaultTableModel model = (DefaultTableModel) jtblArchived.getModel();
@@ -1529,62 +1623,62 @@ public class Dashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Failed to fetch availability.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public void handleGuestCheckOut(String searchName) {
-    try (Connection conn = DatabaseConnection.getConnection()) {
-        // Query to find guests who are currently checked in
-        String query = "SELECT * FROM guests WHERE guest_name LIKE ? AND status = ?";
-        PreparedStatement pstmt = conn.prepareStatement(query);
-        pstmt.setString(1, "%" + searchName + "%");
-        pstmt.setString(2, GuestStatus.CHECK_IN.getStatus()); // Use enum for status
-        ResultSet rs = pstmt.executeQuery();
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            // Query to find guests who are currently checked in
+            String query = "SELECT * FROM guests WHERE guest_name LIKE ? AND status = ?";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, "%" + searchName + "%");
+            pstmt.setString(2, GuestStatus.CHECK_IN.getStatus()); // Use enum for status
+            ResultSet rs = pstmt.executeQuery();
 
-        if (!rs.next()) {
-            JOptionPane.showMessageDialog(this,
-                    "✗ No active reservation found for: " + searchName,
-                    "Guest Not Found", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this,
+                        "✗ No active reservation found for: " + searchName,
+                        "Guest Not Found", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Retrieve guest data
+            String guestName = rs.getString("guest_name");
+            int allocRegular = rs.getInt("allocated_regular");
+            int allocDeluxe = rs.getInt("allocated_deluxe");
+            int allocStaff = rs.getInt("allocated_staff");
+
+            // Show confirmation dialog with guest info
+            StringBuilder guestInfo = new StringBuilder("✓ Guest Found:\n\n");
+            guestInfo.append("Name: ").append(guestName).append("\n");
+            guestInfo.append("Regular Suites: ").append(allocRegular).append("\n");
+            guestInfo.append("Deluxe Suites: ").append(allocDeluxe).append("\n");
+            guestInfo.append("House Staff Assigned: ").append(allocStaff).append("\n");
+            guestInfo.append("Would you like to complete the check-out?");
+
+            int confirm = JOptionPane.showConfirmDialog(this, guestInfo.toString(),
+                    "Confirm Check-Out", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Perform the check-out
+                String updateSQL = "UPDATE guests SET status = ? WHERE guest_name = ? AND status = ?";
+                PreparedStatement updateStmt = conn.prepareStatement(updateSQL);
+                updateStmt.setString(1, GuestStatus.CHECK_OUT.getStatus()); // Update status to Check-Out
+                updateStmt.setString(2, guestName);
+                updateStmt.setString(3, GuestStatus.CHECK_IN.getStatus()); // Ensure the current status is Check-In
+                updateStmt.executeUpdate();
+
+                // Restore the resources
+                banker.updateResourceAllocation(-allocRegular, -allocDeluxe, -allocStaff);
+                refreshTables();
+                JOptionPane.showMessageDialog(this,
+                        "✓ Check-out completed for guest: " + guestName,
+                        "Check-Out Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error during check-out: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Retrieve guest data
-        String guestName = rs.getString("guest_name");
-        int allocRegular = rs.getInt("allocated_regular");
-        int allocDeluxe = rs.getInt("allocated_deluxe");
-        int allocStaff = rs.getInt("allocated_staff");
-
-        // Show confirmation dialog with guest info
-        StringBuilder guestInfo = new StringBuilder("✓ Guest Found:\n\n");
-        guestInfo.append("Name: ").append(guestName).append("\n");
-        guestInfo.append("Regular Suites: ").append(allocRegular).append("\n");
-        guestInfo.append("Deluxe Suites: ").append(allocDeluxe).append("\n");
-        guestInfo.append("House Staff Assigned: ").append(allocStaff).append("\n");
-        guestInfo.append("Would you like to complete the check-out?");
-
-        int confirm = JOptionPane.showConfirmDialog(this, guestInfo.toString(),
-                "Confirm Check-Out", JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            // Perform the check-out
-            String updateSQL = "UPDATE guests SET status = ? WHERE guest_name = ? AND status = ?";
-            PreparedStatement updateStmt = conn.prepareStatement(updateSQL);
-            updateStmt.setString(1, GuestStatus.CHECK_OUT.getStatus()); // Update status to Check-Out
-            updateStmt.setString(2, guestName);
-            updateStmt.setString(3, GuestStatus.CHECK_IN.getStatus()); // Ensure the current status is Check-In
-            updateStmt.executeUpdate();
-
-            // Restore the resources
-            banker.updateResourceAllocation(-allocRegular, -allocDeluxe, -allocStaff);
-            refreshTables();
-            JOptionPane.showMessageDialog(this,
-                    "✓ Check-out completed for guest: " + guestName,
-                    "Check-Out Success", JOptionPane.INFORMATION_MESSAGE);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error during check-out: " + e.getMessage(),
-                "Database Error", JOptionPane.ERROR_MESSAGE);
     }
-}
 
     public void handleArchivedRecords() {
         try (Connection conn = DatabaseConnection.getConnection()) {
@@ -1624,8 +1718,200 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
 
+     public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setRowCount(0); // Clear existing data
 
-//    
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE status = 'Check-In'");
+
+            int[] available = getCurrentAvailableResources();
+
+            while (rs.next()) {
+                String name = rs.getString("guest_name");
+                int[] alloc = {
+                    rs.getInt("allocated_regular"),
+                    rs.getInt("allocated_deluxe"),
+                    rs.getInt("allocated_staff")
+                };
+                int[] max = {
+                    rs.getInt("max_regular"),
+                    rs.getInt("max_deluxe"),
+                    rs.getInt("max_staff")
+                };
+
+                int[] need = new int[3];
+                for (int i = 0; i < 3; i++) {
+                    need[i] = max[i] - alloc[i];
+                }
+
+                int[] req = {0, 0, 0};
+                String status = "—";
+
+                if (name.equalsIgnoreCase(requestingGuest)) {
+                    req = request;
+
+                    boolean reqWithinNeed = req[0] <= need[0] && req[1] <= need[1] && req[2] <= need[2];
+                    boolean reqWithinAvail = req[0] <= available[0] && req[1] <= available[1] && req[2] <= available[2];
+
+                    if (!reqWithinNeed) {
+                        status = "Invalid";
+                    } else if (!reqWithinAvail) {
+                        status = "Pending";
+                    } else {
+                        boolean safe = isSafeAllocation(req[0], req[1], req[2]);
+                        status = safe ? "Approved" : "Denied";
+                    }
+
+                }
+
+                model.addRow(new Object[]{
+                    name,
+                    need[0], need[1], need[2],
+                    req[0], req[1], req[2],
+                    status
+                });
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Current Resources
+    private int[] getCurrentAvailableResources() throws SQLException {
+        int[] available = new int[3];
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
+        while (rs.next()) {
+            switch (rs.getString("resource_type")) {
+                case "regular_suite" ->
+                    available[0] = rs.getInt("available");
+                case "deluxe_suite" ->
+                    available[1] = rs.getInt("available");
+                case "house_staff" ->
+                    available[2] = rs.getInt("available");
+            }
+        }
+        return available;
+    }
+
+    //Determines if the available resources are still safe when a guest requests
+    private boolean isSafeState(List<Guest> guests, Resources resources) {
+        int[] work = resources.getAvailable().clone();
+        boolean[] finish = new boolean[guests.size()];
+        int finishedCount = 0;
+
+        while (finishedCount < guests.size()) {
+            boolean progress = false;
+            for (int i = 0; i < guests.size(); i++) {
+                if (!finish[i]) {
+                    int[] need = guests.get(i).getNeed();
+                    if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
+                        int[] alloc = guests.get(i).allocated;
+                        for (int j = 0; j < 3; j++) {
+                            work[j] += alloc[j];
+                        }
+                        finish[i] = true;
+                        finishedCount++;
+                        progress = true;
+                    }
+                }
+            }
+
+            if (!progress) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    public int[] getAvailableResources() {
+    String query = "SELECT available FROM resource_allocation ORDER BY resource_type";
+    int[] available = new int[3]; // regular, deluxe, staff
+    
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        if (rs.next()) available[0] = rs.getInt(1); // regular
+        if (rs.next()) available[1] = rs.getInt(1); // deluxe
+        if (rs.next()) available[2] = rs.getInt(1); // staff
+        
+        return available;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
+    public boolean isSafeAllocation(String guestName, 
+                              int reqRegular, int reqDeluxe,
+                              int maxRegular, int maxDeluxe, int maxStaff) {
+    // Calculate staff required (1 staff per room)
+    int reqStaff = reqRegular + reqDeluxe;
+    
+    // 1. Get current state from database
+    int[] available = getAvailableResources();
+    if (available == null) return false;
+    
+    // 2. Check if requested resources exceed available
+    if (reqRegular > available[0] || reqDeluxe > available[1] || reqStaff > available[2]) {
+        return false;
+    }
+
+    // 3. Temporarily allocate resources for safety check
+    available[0] -= reqRegular;
+    available[1] -= reqDeluxe;
+    available[2] -= reqStaff;
+
+    // 4. Get all current allocations and max needs
+    List<Guest> guests = getAllGuests();
+    
+    // Add the new potential guest to the list
+    guests.add(new Guest(
+        new int[]{reqRegular, reqDeluxe, reqStaff},
+        new int[]{maxRegular, maxDeluxe, maxStaff}
+    ));
+
+    // 5. Implement Banker's safety algorithm
+    int[] work = Arrays.copyOf(available, available.length);
+    boolean[] finish = new boolean[guests.size()];
+    
+    // Initialize finish array
+    Arrays.fill(finish, false);
+    
+    // Find a guest that can finish with current work
+    boolean found;
+    do {
+        found = false;
+        for (int i = 0; i < guests.size(); i++) {
+            if (!finish[i]) {
+                Guest g = guests.get(i);
+                int[] need = g.getNeed();
+                
+                if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
+                    // This guest can finish - pretend to release their resources
+                    work[0] += g.allocated[0];
+                    work[1] += g.allocated[1];
+                    work[2] += g.allocated[2];
+                    finish[i] = true;
+                    found = true;
+                }
+            }
+        }
+    } while (found);
+    
+    // If all guests can finish, the state is safe
+    for (boolean f : finish) {
+        if (!f) return false;
+    }
+    
+    return true;
+}
+// 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog jDialogArchived;
     private javax.swing.JDialog jDialogCheckin;
@@ -1640,7 +1926,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -1673,7 +1958,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner6;
     private javax.swing.JSpinner jSpinner7;
     private javax.swing.JSpinner jSpinner8;
-    private javax.swing.JSpinner jSpinner9;
     private javax.swing.JButton jbtnArchived;
     private javax.swing.JButton jbtnCheckin;
     private javax.swing.JButton jbtnCheckout1;
@@ -1681,13 +1965,11 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jbtnCheckoutSearch;
     private javax.swing.JButton jbtnCloseArchived;
     private javax.swing.JButton jbtnCloseCheckin;
-    private javax.swing.JButton jbtnCloseCheckin1;
+    private javax.swing.JButton jbtnCloseEdit;
     private javax.swing.JButton jbtnConfirmAllocation;
-    private javax.swing.JButton jbtnConfirmAllocation1;
+    private javax.swing.JButton jbtnConfirmEditActionPerformed;
     private javax.swing.JButton jbtnEdit;
     private javax.swing.JButton jbtnLogout;
-    private javax.swing.JButton jbtnSafely;
-    private javax.swing.JButton jbtnSafely1;
     private javax.swing.JButton jbtnSearch;
     private javax.swing.JLabel jlblDeluxe;
     private javax.swing.JLabel jlblDeluxe1;
@@ -1716,4 +1998,3 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField jtxtFieldSearchBar;
     // End of variables declaration//GEN-END:variables
 }
-
