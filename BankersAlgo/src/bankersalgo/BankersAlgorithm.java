@@ -140,7 +140,31 @@ public class BankersAlgorithm {
         return false;
     }
     
-    // 2. Check if allocation is safe using Banker's algorithm
+    // 2. Check if requested resources exceed maximum needs
+    if (reqRegular > maxRegular || reqDeluxe > maxDeluxe || reqStaff > maxStaff) {
+        StringBuilder errorMsg = new StringBuilder("✗ Requested resources exceed maximum needs:\n");
+        
+        if (reqRegular > maxRegular) {
+            errorMsg.append("• Regular Suites: Requested ").append(reqRegular)
+                   .append(", Maximum Need ").append(maxRegular).append("\n");
+        }
+        if (reqDeluxe > maxDeluxe) {
+            errorMsg.append("• Deluxe Suites: Requested ").append(reqDeluxe)
+                   .append(", Maximum Need ").append(maxDeluxe).append("\n");
+        }
+        if (reqStaff > maxStaff) {
+            errorMsg.append("• House Staff: Requested ").append(reqStaff)
+                   .append(", Maximum Need ").append(maxStaff).append("\n");
+        }
+        
+        errorMsg.append("\nPlease adjust your request to not exceed maximum needs.");
+        
+        JOptionPane.showMessageDialog(null, errorMsg.toString(),
+            "Request Exceeds Need", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    
+    // 3. Check if allocation is safe using Banker's algorithm
     boolean isSafe = isSafeAllocation(guestName, reqRegular, reqDeluxe, maxRegular, maxDeluxe, maxStaff);
     
     if (!isSafe) {
@@ -151,7 +175,7 @@ public class BankersAlgorithm {
         return false;
     }
     
-    // 3. Show confirmation dialog with allocation details
+    // 4. Show confirmation dialog with allocation details
     StringBuilder confirmMsg = new StringBuilder("✓ Allocation is safe!\n\n");
     confirmMsg.append("Guest: ").append(guestName).append("\n");
     confirmMsg.append("Allocating:\n");
@@ -171,7 +195,7 @@ public class BankersAlgorithm {
         return false;
     }
     
-    // 4. Insert into database
+    // 5. Insert into database
     try {
         // Start transaction
         conn.setAutoCommit(false);
@@ -392,15 +416,8 @@ public class BankersAlgorithm {
                 int maxDeluxe = rs.getInt("max_deluxe");
                 int maxStaff = rs.getInt("max_staff");
 
-                model.addRow(new Object[]{
-                    name,
-                    allocRegular,
-                    allocDeluxe,
-                    allocStaff,
-                    maxRegular,
-                    maxDeluxe,
-                    maxStaff
-                });
+                model.addRow(new Object[]{name, allocRegular, allocDeluxe, allocStaff,
+                    maxRegular, maxDeluxe, maxStaff});
             }
 
         } catch (SQLException e) {
@@ -409,58 +426,61 @@ public class BankersAlgorithm {
     }
 
     //Table 2
-    public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
+    public void updateNeedsTable(JTable needsTable) {
         try {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            DefaultTableModel model = (DefaultTableModel) needsTable.getModel();
             model.setRowCount(0); // Clear existing data
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE status = 'Check-In'");
 
-            int[] available = getCurrentAvailableResources();
-
             while (rs.next()) {
                 String name = rs.getString("guest_name");
-                int[] alloc = {
-                    rs.getInt("allocated_regular"),
-                    rs.getInt("allocated_deluxe"),
-                    rs.getInt("allocated_staff")
-                };
-                int[] max = {
-                    rs.getInt("max_regular"),
-                    rs.getInt("max_deluxe"),
-                    rs.getInt("max_staff")
-                };
-
-                int[] need = new int[3];
-                for (int i = 0; i < 3; i++) {
-                    need[i] = max[i] - alloc[i];
+                
+                // Get allocated resources
+                int allocRegular = rs.getInt("allocated_regular");
+                int allocDeluxe = rs.getInt("allocated_deluxe");
+                int allocStaff = rs.getInt("allocated_staff");
+                
+                // Get maximum needs
+                int maxRegular = rs.getInt("max_regular");
+                int maxDeluxe = rs.getInt("max_deluxe");
+                int maxStaff = rs.getInt("max_staff");
+                
+                // Calculate remaining needs
+                int needRegular = Math.max(0, maxRegular - allocRegular);
+                int needDeluxe = Math.max(0, maxDeluxe - allocDeluxe);
+                int needStaff = Math.max(0, maxStaff - allocStaff);
+                
+                // Get requested resources (if any)
+                int reqRegular = 0;
+                int reqDeluxe = 0;
+                int reqStaff = 0;
+                
+                // Check if there's a pending request
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "SELECT * FROM resource_requests WHERE guest_name = ?");
+                pstmt.setString(1, name);
+                ResultSet reqRs = pstmt.executeQuery();
+                
+                if (reqRs.next()) {
+                    reqRegular = reqRs.getInt("req_regular");
+                    reqDeluxe = reqRs.getInt("req_deluxe");
+                    reqStaff = reqRs.getInt("req_staff");
                 }
-
-                int[] req = {0, 0, 0};
-                String status = "—";
-
-                if (name.equalsIgnoreCase(requestingGuest)) {
-                    req = request;
-
-                    boolean reqWithinNeed = req[0] <= need[0] && req[1] <= need[1] && req[2] <= need[2];
-                    boolean reqWithinAvail = req[0] <= available[0] && req[1] <= available[1] && req[2] <= available[2];
-
-                    if (!reqWithinNeed) {
-                        status = "Invalid";
-                    } else if (!reqWithinAvail) {
-                        status = "Pending";
-                    } else {
-                        boolean safe = isSafeAllocation(req[0], req[1], req[2]);
-                        status = safe ? "Approved" : "Denied";
-                    }
-
+                
+                // Determine status
+                String status = "Valid";
+                
+                // Check if request exceeds need
+                if (reqRegular > needRegular || reqDeluxe > needDeluxe || reqStaff > needStaff) {
+                    status = "Invalid";
                 }
-
+                
                 model.addRow(new Object[]{
-                    name,
-                    need[0], need[1], need[2],
-                    req[0], req[1], req[2],
+                    name, 
+                    needRegular, needDeluxe, needStaff,
+                    reqRegular, reqDeluxe, reqStaff,
                     status
                 });
             }
@@ -470,33 +490,21 @@ public class BankersAlgorithm {
         }
     }
 
-    //Current Resources
-    private int[] getCurrentAvailableResources() throws SQLException {
-        int[] available = new int[3];
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM resource_allocation");
-        while (rs.next()) {
-            switch (rs.getString("resource_type")) {
-                case "regular_suite" ->
-                    available[0] = rs.getInt("available");
-                case "deluxe_suite" ->
-                    available[1] = rs.getInt("available");
-                case "house_staff" ->
-                    available[2] = rs.getInt("available");
-            }
-        }
-        return available;
-    }
-
-    //Determines if the available resources are still safe when a guest requests
     private boolean isSafeState(List<Guest> guests, Resources resources) {
-        int[] work = resources.getAvailable().clone();
-        boolean[] finish = new boolean[guests.size()];
-        int finishedCount = 0;
+        int n = guests.size();
+        boolean[] finish = new boolean[n];
+        int[] work = resources.getAvailable();
 
-        while (finishedCount < guests.size()) {
-            boolean progress = false;
-            for (int i = 0; i < guests.size(); i++) {
+        // Initialize finish array
+        for (int i = 0; i < n; i++) {
+            finish[i] = false;
+        }
+
+        // Find an unfinished process whose needs can be satisfied
+        boolean progress;
+        do {
+            progress = false;
+            for (int i = 0; i < n; i++) {
                 if (!finish[i]) {
                     int[] need = guests.get(i).getNeed();
                     if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
@@ -505,7 +513,6 @@ public class BankersAlgorithm {
                             work[j] += alloc[j];
                         }
                         finish[i] = true;
-                        finishedCount++;
                         progress = true;
                     }
                 }
@@ -514,119 +521,294 @@ public class BankersAlgorithm {
             if (!progress) {
                 return false;
             }
-        }
+        } while (!allFinished(finish));
 
         return true;
     }
     
-    public int[] getAvailableResources() {
-    String query = "SELECT available FROM resource_allocation ORDER BY resource_type";
-    int[] available = new int[3]; // regular, deluxe, staff
-    
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
-        
-        if (rs.next()) available[0] = rs.getInt(1); // regular
-        if (rs.next()) available[1] = rs.getInt(1); // deluxe
-        if (rs.next()) available[2] = rs.getInt(1); // staff
-        
-        return available;
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return null;
+    private boolean allFinished(boolean[] finish) {
+        for (boolean f : finish) {
+            if (!f) return false;
+        }
+        return true;
     }
-}
+    
+    public int[] getAvailableResources() {
+        String query = "SELECT available FROM resource_allocation ORDER BY resource_type";
+        int[] available = new int[3]; // regular, deluxe, staff
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            if (rs.next()) available[0] = rs.getInt(1); // regular
+            if (rs.next()) available[1] = rs.getInt(1); // deluxe
+            if (rs.next()) available[2] = rs.getInt(1); // staff
+            
+            return available;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public boolean isSafeAllocation(String guestName, 
                               int reqRegular, int reqDeluxe,
                               int maxRegular, int maxDeluxe, int maxStaff) {
-    // Calculate staff required (1 staff per room)
-    int reqStaff = reqRegular + reqDeluxe;
-    
-    // 1. Get current state from database
-    int[] available = getAvailableResources();
-    if (available == null) return false;
-    
-    // 2. Check if requested resources exceed available
-    if (reqRegular > available[0] || reqDeluxe > available[1] || reqStaff > available[2]) {
-        return false;
-    }
+        // Calculate staff required (1 staff per room)
+        int reqStaff = reqRegular + reqDeluxe;
+        
+        // 1. Get current state from database
+        int[] available = getAvailableResources();
+        if (available == null) return false;
+        
+        // 2. Check if requested resources exceed available
+        if (reqRegular > available[0] || reqDeluxe > available[1] || reqStaff > available[2]) {
+            return false;
+        }
+        
+        // 3. Check if requested resources exceed maximum needs
+        if (reqRegular > maxRegular || reqDeluxe > maxDeluxe || reqStaff > maxStaff) {
+            return false;
+        }
 
-    // 3. Temporarily allocate resources for safety check
-    available[0] -= reqRegular;
-    available[1] -= reqDeluxe;
-    available[2] -= reqStaff;
+        // 4. Temporarily allocate resources for safety check
+        available[0] -= reqRegular;
+        available[1] -= reqDeluxe;
+        available[2] -= reqStaff;
 
-    // 4. Get all current allocations and max needs
-    List<Guest> guests = getAllGuests();
-    
-    // Add the new potential guest to the list
-    guests.add(new Guest(
-        new int[]{reqRegular, reqDeluxe, reqStaff},
-        new int[]{maxRegular, maxDeluxe, maxStaff}
-    ));
+        // 5. Get all current allocations and max needs
+        List<Guest> guests = getAllGuests();
+        
+        // Add the new potential guest to the list
+        guests.add(new Guest(
+            new int[]{reqRegular, reqDeluxe, reqStaff},
+            new int[]{maxRegular, maxDeluxe, maxStaff}
+        ));
 
-    // 5. Implement Banker's safety algorithm
-    int[] work = Arrays.copyOf(available, available.length);
-    boolean[] finish = new boolean[guests.size()];
-    
-    // Initialize finish array
-    Arrays.fill(finish, false);
-    
-    // Find a guest that can finish with current work
-    boolean found;
-    do {
-        found = false;
-        for (int i = 0; i < guests.size(); i++) {
-            if (!finish[i]) {
-                Guest g = guests.get(i);
-                int[] need = g.getNeed();
-                
-                if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
-                    // This guest can finish - pretend to release their resources
-                    work[0] += g.allocated[0];
-                    work[1] += g.allocated[1];
-                    work[2] += g.allocated[2];
-                    finish[i] = true;
-                    found = true;
+        // 6. Implement Banker's safety algorithm
+        int[] work = Arrays.copyOf(available, available.length);
+        boolean[] finish = new boolean[guests.size()];
+        
+        // Initialize finish array
+        Arrays.fill(finish, false);
+        
+        // Find a guest that can finish with current work
+        boolean found;
+        do {
+            found = false;
+            for (int i = 0; i < guests.size(); i++) {
+                if (!finish[i]) {
+                    Guest g = guests.get(i);
+                    int[] need = g.getNeed();
+                    
+                    if (need[0] <= work[0] && need[1] <= work[1] && need[2] <= work[2]) {
+                        // This guest can finish - pretend to release their resources
+                        work[0] += g.allocated[0];
+                        work[1] += g.allocated[1];
+                        work[2] += g.allocated[2];
+                        finish[i] = true;
+                        found = true;
+                    }
                 }
             }
-        }
-    } while (found);
-    
-    // If all guests can finish, the state is safe
-    for (boolean f : finish) {
-        if (!f) return false;
-    }
-    
-    return true;
-}
-
-private List<Guest> getAllGuests() {
-    List<Guest> guests = new ArrayList<>();
-    String query = "SELECT guest_name, allocated_regular, allocated_deluxe, allocated_staff, " +
-                  "max_regular, max_deluxe, max_staff FROM guests";
-    
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
+        } while (found);
         
-        while (rs.next()) {
-            guests.add(new Guest(
-                rs.getString("guest_name"),
-                rs.getInt("allocated_regular"),
-                rs.getInt("allocated_deluxe"),
-                rs.getInt("allocated_staff"),
-                rs.getInt("max_regular"),
-                rs.getInt("max_deluxe"),
-                rs.getInt("max_staff")
-            ));
+        // If all guests can finish, the state is safe
+        for (boolean f : finish) {
+            if (!f) return false;
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        
+        return true;
+    }
+
+    private List<Guest> getAllGuests() {
+        List<Guest> guests = new ArrayList<>();
+        String query = "SELECT guest_name, allocated_regular, allocated_deluxe, allocated_staff, " +
+                      "max_regular, max_deluxe, max_staff FROM guests";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                guests.add(new Guest(
+                    rs.getString("guest_name"),
+                    rs.getInt("allocated_regular"),
+                    rs.getInt("allocated_deluxe"),
+                    rs.getInt("allocated_staff"),
+                    rs.getInt("max_regular"),
+                    rs.getInt("max_deluxe"),
+                    rs.getInt("max_staff")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return guests;
+    }
+    /**
+     * Get the remaining needs for a guest
+     * @param guestName The name of the guest
+     * @return int[] array with remaining needs [regular, deluxe, staff] or null if error
+     */
+    public int[] getRemainingNeeds(String guestName) {
+        try {
+            // Get the guest's current allocation and maximum needs
+            PreparedStatement pstmt = conn.prepareStatement(
+                "SELECT allocated_regular, allocated_deluxe, allocated_staff, " +
+                "max_regular, max_deluxe, max_staff FROM guests " +
+                "WHERE guest_name = ? AND status = 'Check-In'"
+            );
+            pstmt.setString(1, guestName);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (!rs.next()) {
+                return null; // Guest not found
+            }
+            
+            // Get current allocation
+            int allocRegular = rs.getInt("allocated_regular");
+            int allocDeluxe = rs.getInt("allocated_deluxe");
+            int allocStaff = rs.getInt("allocated_staff");
+            
+            // Get maximum needs
+            int maxRegular = rs.getInt("max_regular");
+            int maxDeluxe = rs.getInt("max_deluxe");
+            int maxStaff = rs.getInt("max_staff");
+            
+            // Calculate remaining needs
+            int needRegular = Math.max(0, maxRegular - allocRegular);
+            int needDeluxe = Math.max(0, maxDeluxe - allocDeluxe);
+            int needStaff = Math.max(0, maxStaff - allocStaff);
+            
+            return new int[] {needRegular, needDeluxe, needStaff};
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
-    return guests;
-}
+    /**
+     * Update the labels in the edit dialog to show remaining rooms
+     * @param guestName The name of the guest
+     * @param regularLabel The label to update for regular suites
+     * @param deluxeLabel The label to update for deluxe suites
+     * @param staffLabel The label to update for staff
+     */
+    public void updateRemainingRoomsLabels(String guestName, 
+                                          javax.swing.JLabel regularLabel, 
+                                          javax.swing.JLabel deluxeLabel, 
+                                          javax.swing.JLabel staffLabel) {
+        int[] remainingNeeds = getRemainingNeeds(guestName);
+        
+        if (remainingNeeds != null) {
+            // Update the labels with remaining needs
+            regularLabel.setText("Regular: " + remainingNeeds[0] + " available");
+            deluxeLabel.setText("Deluxe: " + remainingNeeds[1] + " available");
+            staffLabel.setText("Staff: " + remainingNeeds[2] + " available");
+            
+            // Set color based on availability
+            setAvailabilityColor(regularLabel, remainingNeeds[0]);
+            setAvailabilityColor(deluxeLabel, remainingNeeds[1]);
+            setAvailabilityColor(staffLabel, remainingNeeds[2]);
+        } else {
+            // Guest not found or error
+            regularLabel.setText("Regular: --");
+            deluxeLabel.setText("Deluxe: --");
+            staffLabel.setText("Staff: --");
+        }
+    }
+    /**
+     * Set color of label based on availability
+     * @param label The label to set color for
+     * @param value The availability value
+     */
+    private void setAvailabilityColor(javax.swing.JLabel label, int value) {
+        if (value <= 0) {
+            // No availability
+            label.setForeground(java.awt.Color.RED);
+        } else if (value <= 2) {
+            // Limited availability
+            label.setForeground(new java.awt.Color(255, 165, 0)); // Orange
+        } else {
+            // Good availability
+            label.setForeground(new java.awt.Color(0, 128, 0)); // Green
+        }
+    }
+    // New method to validate if a request is valid (doesn't exceed need)
+    public boolean validateRequest(String guestName, int reqRegular, int reqDeluxe, int reqStaff) {
+        try {
+            // Get the guest's current allocation and maximum needs
+            PreparedStatement pstmt = conn.prepareStatement(
+                "SELECT allocated_regular, allocated_deluxe, allocated_staff, " +
+                "max_regular, max_deluxe, max_staff FROM guests " +
+                "WHERE guest_name = ? AND status = 'Check-In'"
+            );
+            pstmt.setString(1, guestName);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(null,
+                    "Guest not found or not checked in: " + guestName,
+                    "Guest Not Found", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            
+            // Get current allocation
+            int allocRegular = rs.getInt("allocated_regular");
+            int allocDeluxe = rs.getInt("allocated_deluxe");
+            int allocStaff = rs.getInt("allocated_staff");
+            
+            // Get maximum needs
+            int maxRegular = rs.getInt("max_regular");
+            int maxDeluxe = rs.getInt("max_deluxe");
+            int maxStaff = rs.getInt("max_staff");
+            
+            // Calculate remaining needs
+            int needRegular = maxRegular - allocRegular;
+            int needDeluxe = maxDeluxe - allocDeluxe;
+            int needStaff = maxStaff - allocStaff;
+            
+            // Check if request exceeds need
+            boolean isValid = true;
+            StringBuilder errorMsg = new StringBuilder("✗ Request exceeds remaining needs:\n");
+            
+            if (reqRegular > needRegular) {
+                errorMsg.append("• Regular Suites: Requested ").append(reqRegular)
+                       .append(", Need ").append(needRegular).append("\n");
+                isValid = false;
+            }
+            
+            if (reqDeluxe > needDeluxe) {
+                errorMsg.append("• Deluxe Suites: Requested ").append(reqDeluxe)
+                       .append(", Need ").append(needDeluxe).append("\n");
+                isValid = false;
+            }
+            
+            if (reqStaff > needStaff) {
+                errorMsg.append("• House Staff: Requested ").append(reqStaff)
+                       .append(", Need ").append(needStaff).append("\n");
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                errorMsg.append("\nPlease adjust your request to not exceed remaining needs.");
+                JOptionPane.showMessageDialog(null, errorMsg.toString(),
+                    "Invalid Request", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            
+            return true;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                "Error validating request: " + e.getMessage(),
+                "Database Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
 }

@@ -16,8 +16,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.swing.table.*;
 
 /**
@@ -92,9 +91,9 @@ public class Dashboard extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jlblRegular = new javax.swing.JLabel();
-        jlblDeluxe = new javax.swing.JLabel();
-        jlblStaff = new javax.swing.JLabel();
+        jlblEditRegular = new javax.swing.JLabel();
+        jlblEditDeluxe = new javax.swing.JLabel();
+        jlblEditStaff = new javax.swing.JLabel();
         jbtnCloseCheckin = new javax.swing.JButton();
         jbtnConfirmAllocation = new javax.swing.JButton();
         jtxtFieldGuest = new javax.swing.JTextField();
@@ -133,7 +132,7 @@ public class Dashboard extends javax.swing.JFrame {
         jlblDeluxe1 = new javax.swing.JLabel();
         jlblStaff1 = new javax.swing.JLabel();
         jbtnCloseEdit = new javax.swing.JButton();
-        jbtnConfirmEditActionPerformed = new javax.swing.JButton();
+        jbtnConfirmEdit = new javax.swing.JButton();
         jtxtFieldGuest1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jlblTitleDashboard = new javax.swing.JLabel();
@@ -150,7 +149,7 @@ public class Dashboard extends javax.swing.JFrame {
         jbtnEdit = new javax.swing.JButton();
         jbtnArchived = new javax.swing.JButton();
         jbtnLogout = new javax.swing.JButton();
-        jbtnCheckout1 = new javax.swing.JButton();
+        jbtnCheckout = new javax.swing.JButton();
 
         jDialogCheckin.setBackground(new java.awt.Color(255, 255, 255));
         jDialogCheckin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -207,14 +206,14 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
         jLabel14.setText("Available Resources");
 
-        jlblRegular.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jlblRegular.setText("Regular:");
+        jlblEditRegular.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
+        jlblEditRegular.setText("Regular:");
 
-        jlblDeluxe.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jlblDeluxe.setText("Deluxe:");
+        jlblEditDeluxe.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
+        jlblEditDeluxe.setText("Deluxe:");
 
-        jlblStaff.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jlblStaff.setText("Staff: ");
+        jlblEditStaff.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
+        jlblEditStaff.setText("Staff: ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -226,11 +225,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addComponent(jlblRegular)
+                .addComponent(jlblEditRegular)
                 .addGap(79, 79, 79)
-                .addComponent(jlblDeluxe)
+                .addComponent(jlblEditDeluxe)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                .addComponent(jlblStaff)
+                .addComponent(jlblEditStaff)
                 .addGap(93, 93, 93))
         );
         jPanel2Layout.setVerticalGroup(
@@ -240,9 +239,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jLabel14)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlblRegular)
-                    .addComponent(jlblDeluxe)
-                    .addComponent(jlblStaff))
+                    .addComponent(jlblEditRegular)
+                    .addComponent(jlblEditDeluxe)
+                    .addComponent(jlblEditStaff))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -623,15 +622,15 @@ public class Dashboard extends javax.swing.JFrame {
         jSpinner10.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel20.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
-        jLabel20.setText("Max Regular");
+        jLabel20.setText("Requested Regular");
 
         jLabel21.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
-        jLabel21.setText("Max Deluxe");
+        jLabel21.setText("Requested Deluxe");
 
         jSpinner11.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jLabel22.setFont(new java.awt.Font("Afacad", 0, 14)); // NOI18N
-        jLabel22.setText("Max Staff Need");
+        jLabel22.setText("Requested Staff Need");
 
         jSpinner12.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -689,13 +688,13 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jbtnConfirmEditActionPerformed.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnConfirmEditActionPerformed.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
-        jbtnConfirmEditActionPerformed.setForeground(new java.awt.Color(243, 212, 178));
-        jbtnConfirmEditActionPerformed.setText("Confirm Updated Allocation");
-        jbtnConfirmEditActionPerformed.addActionListener(new java.awt.event.ActionListener() {
+        jbtnConfirmEdit.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnConfirmEdit.setFont(new java.awt.Font("Afacad", 0, 18)); // NOI18N
+        jbtnConfirmEdit.setForeground(new java.awt.Color(243, 212, 178));
+        jbtnConfirmEdit.setText("Confirm Updated Allocation");
+        jbtnConfirmEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnConfirmEditActionPerformedActionPerformed(evt);
+                jbtnConfirmEditActionPerformed(evt);
             }
         });
 
@@ -720,9 +719,6 @@ public class Dashboard extends javax.swing.JFrame {
                                 .addGap(118, 118, 118)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jlblSearchGuest1)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jtxtFieldGuest1)
-                                        .addGap(5, 5, 5))
                                     .addComponent(jLabel19)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -731,23 +727,24 @@ public class Dashboard extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                                 .addComponent(jLabel20)
-                                                .addGap(178, 178, 178)))
+                                                .addGap(138, 138, 138)))
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel21)
                                             .addComponent(jSpinner11, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jSpinner12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel22)))
+                                    .addComponent(jSpinner12, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jtxtFieldGuest1)))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 106, Short.MAX_VALUE)))
+                        .addGap(0, 115, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jlblTitleCheckin1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbtnCloseEdit)
                 .addGap(18, 18, 18)
-                .addComponent(jbtnConfirmEditActionPerformed)
+                .addComponent(jbtnConfirmEdit)
                 .addGap(65, 65, 65))
         );
         jPanel6Layout.setVerticalGroup(
@@ -773,14 +770,14 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSpinner12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(170, 170, 170)
+                .addGap(146, 146, 146)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnCloseEdit)
-                    .addComponent(jbtnConfirmEditActionPerformed))
+                    .addComponent(jbtnConfirmEdit))
                 .addGap(117, 117, 117))
         );
 
@@ -931,13 +928,13 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jbtnCheckout1.setBackground(new java.awt.Color(171, 125, 76));
-        jbtnCheckout1.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
-        jbtnCheckout1.setForeground(new java.awt.Color(255, 238, 219));
-        jbtnCheckout1.setText("Checkout");
-        jbtnCheckout1.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCheckout.setBackground(new java.awt.Color(171, 125, 76));
+        jbtnCheckout.setFont(new java.awt.Font("Afacad", 1, 18)); // NOI18N
+        jbtnCheckout.setForeground(new java.awt.Color(255, 238, 219));
+        jbtnCheckout.setText("Checkout");
+        jbtnCheckout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCheckout1ActionPerformed(evt);
+                jbtnCheckoutActionPerformed(evt);
             }
         });
 
@@ -958,7 +955,7 @@ public class Dashboard extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jbtnCheckin)
                                 .addGap(18, 18, 18)
-                                .addComponent(jbtnCheckout1)
+                                .addComponent(jbtnCheckout)
                                 .addGap(18, 18, 18)
                                 .addComponent(jbtnEdit)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -984,7 +981,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jbtnCheckin)
                         .addComponent(jbtnEdit)
-                        .addComponent(jbtnCheckout1))
+                        .addComponent(jbtnCheckout))
                     .addComponent(jbtnArchived))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlblGuestAllocations)
@@ -1040,16 +1037,17 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnCheckinActionPerformed
 
     private void jbtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditActionPerformed
-        int selectedRow = jtblGuestAllocations.getSelectedRow();
+                                    
+    int selectedRow = jtblGuestAllocations.getSelectedRow();
 
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a guest to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a guest to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        selectedGuestName = jtblGuestAllocations.getValueAt(selectedRow, 0).toString(); // Save name globally
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "SELECT * FROM guests WHERE guest_name = ? AND status = 'Check-In'";
+    selectedGuestName = jtblGuestAllocations.getValueAt(selectedRow, 0).toString(); // Save name globally
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        String sql = "SELECT * FROM guests WHERE guest_name = ? AND status = 'Check-In'";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, selectedGuestName);
                 ResultSet rs = stmt.executeQuery();
@@ -1058,9 +1056,31 @@ public class Dashboard extends javax.swing.JFrame {
                     // Populate dialog fields
                     jtxtFieldGuest1.setText(rs.getString("guest_name"));
 
-                    jSpinner10.setValue(rs.getInt("max_regular"));
-                    jSpinner11.setValue(rs.getInt("max_deluxe"));
-                    jSpinner12.setValue(rs.getInt("max_staff"));
+                    // Get current allocation and maximum needs
+                    int allocRegular = rs.getInt("allocated_regular");
+                    int allocDeluxe = rs.getInt("allocated_deluxe");
+                    int allocStaff = rs.getInt("allocated_staff");
+
+                    int maxRegular = rs.getInt("max_regular");
+                    int maxDeluxe = rs.getInt("max_deluxe");
+                    int maxStaff = rs.getInt("max_staff");
+
+                    // Calculate remaining needs
+                    int needRegular = Math.max(0, maxRegular - allocRegular);
+                    int needDeluxe = Math.max(0, maxDeluxe - allocDeluxe);
+                    int needStaff = Math.max(0, maxStaff - allocStaff);
+
+                    // Update the labels with remaining needs
+                    jlblRegular1.setText("Regular: " + needRegular);
+                    jlblDeluxe1.setText("Deluxe: " + needDeluxe);
+                    jlblStaff1.setText("Staff: " + needStaff);
+
+                    
+                    // Update the resource status display
+                    banker.updateResourceDisplay(jtblResourceStatus);
+
+                    // Update edit availability labels
+                    updateEditAvailabilityLabels();
 
                     jDialogEdit.pack();
                     jDialogEdit.setLocationRelativeTo(this);
@@ -1133,137 +1153,466 @@ public class Dashboard extends javax.swing.JFrame {
 
 
     private void jbtnConfirmAllocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmAllocationActionPerformed
-        try {
-            if (selectedGuestName == null) {
-                JOptionPane.showMessageDialog(this, "No guest selected for editing.", "Error", JOptionPane.ERROR_MESSAGE);
+ try {                                                      
+    // Get all input values
+    String guestName = jtxtFieldGuest.getText().trim();
+    
+    // Validate guest name
+    if (guestName.isEmpty() || guestName.equals(PLACEHODER_GUEST)) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid guest name", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Check if the guest name already exists in the database
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        String checkSql = "SELECT COUNT(*) FROM guests WHERE guest_name = ? AND status = 'Check-In'";
+        try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+            checkStmt.setString(1, guestName);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                JOptionPane.showMessageDialog(this, "A guest with this name is already checked in.", "Duplicate Guest", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
-            String guestName = selectedGuestName;
-
-            // Only allocStaff is now input manually
-            int allocStaff = (Integer) jSpinner9.getValue();  // Replace with your actual spinner ID
-
-            // Check available resources
-            int[] available = getCurrentAvailableResources();
-            if (available == null) {
-                JOptionPane.showMessageDialog(this, "Error fetching available resources.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validate that staff allocation doesn't exceed available
-            if (allocStaff > available[2]) {
-                String errorMsg = "✗ Not enough available House Staff:\n"
-                        + "• Requested: " + allocStaff + "\n"
-                        + "• Available: " + available[2] + "\n"
-                        + "\nPlease adjust your request.";
-                JOptionPane.showMessageDialog(this, errorMsg, "Insufficient Resources", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // No rooms, just staff allocation now
-            int[] request = {0, 0, allocStaff};
-            updateNeedsRequestsTable(jtblNeedsRequests, request, guestName);
-            jDialogEdit.setVisible(false);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error processing allocation: " + e.getMessage(),
-                    "Exception", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error checking guest name: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Get allocation values
+    int allocRegular = (Integer) jSpinner1.getValue();
+    int allocDeluxe = (Integer) jSpinner2.getValue();
+    int allocStaff = allocRegular + allocDeluxe; // 1 staff per room
+    
+    // Get max need values
+    int maxRegular = (Integer) jSpinner4.getValue();
+    int maxDeluxe = (Integer) jSpinner5.getValue();
+    int maxStaff = (Integer) jSpinner6.getValue();
+    
+    // Debug: Print allocation and max values
+    System.out.println("Allocations: Regular=" + allocRegular + ", Deluxe=" + allocDeluxe + ", Staff=" + allocStaff);
+    System.out.println("Max Allocations: Regular=" + maxRegular + ", Deluxe=" + maxDeluxe + ", Staff=" + maxStaff);
+    
+    // Check if requested allocations exceed maximum allocations
+    if (allocRegular > maxRegular || allocDeluxe > maxDeluxe || allocStaff > maxStaff) {
+        StringBuilder errorMsg = new StringBuilder("✗ Requested allocations exceed maximum allowed:\n");
+        
+        if (allocRegular > maxRegular) {
+            errorMsg.append("• Regular Suites: Requested ").append(allocRegular)
+                    .append(", Max Allowed ").append(maxRegular).append("\n");
+        }
+        if (allocDeluxe > maxDeluxe) {
+            errorMsg.append("• Deluxe Suites: Requested ").append(allocDeluxe)
+                    .append(", Max Allowed ").append(maxDeluxe).append("\n");
+        }
+        if (allocStaff > maxStaff) {
+            errorMsg.append("• House Staff: Requested ").append(allocStaff)
+                    .append(", Max Allowed ").append(maxStaff).append("\n");
+        }
+        
+        errorMsg.append("\nPlease adjust your request.");
+        JOptionPane.showMessageDialog(this, errorMsg.toString(), "Allocation Error", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Check available resources before proceeding
+    int[] available = getCurrentAvailableResources();
+    if (available == null) {
+        JOptionPane.showMessageDialog(this, "Error fetching available resources.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Debug: Print available resources
+    System.out.println("Available Resources: Regular=" + available[0] + ", Deluxe=" + available[1] + ", Staff=" + available[2]);
+    
+    // Validate that allocation doesn't exceed available resources
+    if (allocRegular > available[0] || allocDeluxe > available[1] || allocStaff > available[2]) {
+        StringBuilder errorMsg = new StringBuilder("✗ Not enough available resources:\n");
+        
+        if (allocRegular > available[0]) {
+            errorMsg.append("• Regular Suites: Requested ").append(allocRegular)
+                    .append(", Available ").append(available[0]).append("\n");
+        }
+        //
+            if (allocDeluxe > available[1]) {
+                errorMsg.append("• Deluxe Suites: Requested ").append(allocDeluxe)
+                                            .append(", Available ").append(available[1]).append("\n");
+        }
+        if (allocStaff > available[2]) {
+            errorMsg.append("• House Staff: Requested ").append(allocStaff)
+                    .append(", Available ").append(available[2]).append("\n");
+        }
+        
+        errorMsg.append("\nPlease adjust your request.");
+        JOptionPane.showMessageDialog(this, errorMsg.toString(), "Insufficient Resources", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Proceed with the safety check using Banker's algorithm
+    if (!isSafeAllocation(guestName, allocRegular, allocDeluxe, maxRegular, maxDeluxe, maxStaff)) {
+        JOptionPane.showMessageDialog(this,
+                "✗ This allocation would make the system unsafe.\n"
+                        + "Please reduce your resource requests.",
+                "Unsafe Allocation", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Proceed with adding the new guest to the database
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        conn.setAutoCommit(false); // Start transaction
+        
+        // Insert new guest allocation
+        String insertSql = "INSERT INTO guests (guest_name, allocated_regular, allocated_deluxe, allocated_staff, "
+                + "max_regular, max_deluxe, max_staff, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Check-In')";
+        try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+            insertStmt.setString(1, guestName);
+            insertStmt.setInt(2, allocRegular);
+            insertStmt.setInt(3, allocDeluxe);
+            insertStmt.setInt(4, allocStaff);
+            insertStmt.setInt(5, maxRegular);
+            insertStmt.setInt(6, maxDeluxe);
+            insertStmt.setInt(7, maxStaff);
+            insertStmt.executeUpdate();
+        }
+        
+        // Update resource allocations
+        String updateResSql = "UPDATE resource_allocation SET "
+                + "allocated = allocated + ?, "
+                + "available = available - ? "
+                + "WHERE resource_type = ?";
+        
+        try (PreparedStatement updateStmt = conn.prepareStatement(updateResSql)) {
+            // Update regular suites
+            updateStmt.setInt(1, allocRegular);
+            updateStmt.setInt(2, allocRegular);
+            updateStmt.setString(3, "regular_suite");
+            updateStmt.executeUpdate();
+            
+            // Update deluxe suites
+            updateStmt.setInt(1, allocDeluxe);
+            updateStmt.setInt(2, allocDeluxe);
+            updateStmt.setString(3, "deluxe_suite");
+            updateStmt.executeUpdate();
+            
+            // Update staff
+            updateStmt.setInt(1, allocStaff);
+            updateStmt.setInt(2, allocStaff);
+            updateStmt.setString(3, "house_staff");
+            updateStmt.executeUpdate();
+        }
+        
+        conn.commit(); // Commit transaction
+        
+        // Show success message
+        JOptionPane.showMessageDialog(this,
+                "Check-In successful for " + guestName,
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Reset the form
+        jtxtFieldGuest.setText(PLACEHODER_GUEST);
+        jtxtFieldGuest.setForeground(Color.GRAY);
+        jSpinner1.setValue(0);
+        jSpinner2.setValue(0);
+        jSpinner4.setValue(0);
+        jSpinner5.setValue(0);
+        jSpinner6.setValue(0);
+        
+        // Close the check-in dialog
+        jDialogCheckin.setVisible(false);
+        
+        // Refresh tables and availability labels
+        refreshTables();
+        updateAvailabilityLabels();
+        
+        // Update Needs/Requests Table (2nd Table)
+        int[] request = {allocRegular, allocDeluxe, allocStaff};
+        updateNeedsRequestsTable(jtblNeedsRequests, request, guestName);
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this,
+                "Database error: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+} catch (Exception ex) {
+    ex.printStackTrace();
+    JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
 
     }//GEN-LAST:event_jbtnConfirmAllocationActionPerformed
 
-    private void jbtnCheckout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckout1ActionPerformed
-        String searchName = JOptionPane.showInputDialog(null, "Enter the guest name for check-out:");
-
-        // Ensure that a guest name is provided
-        if (searchName != null && !searchName.trim().isEmpty()) {
-            // Call the handleGuestCheckOut method to process the check-out
-            handleGuestCheckOut(searchName);
-        } else {
-            // If no guest name is provided, show an error message
-            JOptionPane.showMessageDialog(null, "Please enter a valid guest name for check-out.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jbtnCheckout1ActionPerformed
+    private void jbtnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheckoutActionPerformed
+        jDialogCheckout.pack();
+        jDialogCheckout.setLocationRelativeTo(this);
+        jDialogCheckout.setVisible(true);
+    }//GEN-LAST:event_jbtnCheckoutActionPerformed
 
     private void jbtnCloseEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCloseEditActionPerformed
         // Close the edit dialog
         jDialogEdit.setVisible(false);
-        int allocStaff = (Integer) jSpinner9.getValue();  // Update this to your actual spinner
-        int[] request = {0, 0, allocStaff};
-
-        updateNeedsRequestsTable(jtblNeedsRequests, request, selectedGuestName);
+        
     }//GEN-LAST:event_jbtnCloseEditActionPerformed
-
-    private void jbtnConfirmEditActionPerformedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmEditActionPerformedActionPerformed
-
-        try {
-            if (selectedGuestName == null) {
-                JOptionPane.showMessageDialog(this, "No guest selected for editing.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String guestName = selectedGuestName;
-
-            // Fetch the current allocated values from the database for the guest
-            int allocRegular = 0;
-            int allocDeluxe = 0;
-
-            // Get allocated values from the database
-            try (Connection conn = DatabaseConnection.getConnection()) {
-                String sql = "SELECT allocated_regular, allocated_deluxe FROM guests WHERE guest_name = ? AND status = 'Check-In'";
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                    stmt.setString(1, guestName);
-                    ResultSet rs = stmt.executeQuery();
-                    if (rs.next()) {
-                        allocRegular = rs.getInt("allocated_regular");
-                        allocDeluxe = rs.getInt("allocated_deluxe");
-                    }
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error fetching allocated data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Calculate allocStaff as the sum of allocRegular and allocDeluxe
-            int allocStaff = allocRegular + allocDeluxe;
-
-            // Check available resources
-            int[] available = getCurrentAvailableResources();
-            if (available == null) {
-                JOptionPane.showMessageDialog(this, "Error fetching available resources.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validate that staff allocation doesn't exceed available
-            if (allocStaff > available[2]) {
-                String errorMsg = "✗ Not enough available House Staff:\n"
-                        + "• Requested: " + allocStaff + "\n"
-                        + "• Available: " + available[2] + "\n"
-                        + "\nPlease adjust your request.";
-                JOptionPane.showMessageDialog(this, errorMsg, "Insufficient Resources", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // Update Needs/Requests table with calculated staff allocation
-            int[] request = {allocRegular, allocDeluxe, allocStaff};  // staff is calculated automatically now
-            updateNeedsRequestsTable(jtblNeedsRequests, request, guestName);
-
-            // Hide the edit dialog
-            jDialogEdit.setVisible(false);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error processing allocation: " + e.getMessage(),
-                    "Exception", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jbtnConfirmEditActionPerformedActionPerformed
 
     private void jtxtFieldGuest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFieldGuest1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtFieldGuest1ActionPerformed
 
+    private void jbtnConfirmEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnConfirmEditActionPerformed
+                                               
+        try {
+            if (selectedGuestName == null) {
+                JOptionPane.showMessageDialog(this, "No guest selected for editing.", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Get requested values
+            int reqRegular = (Integer) jSpinner10.getValue();
+            int reqDeluxe = (Integer) jSpinner11.getValue();
+            int reqStaff = (Integer) jSpinner12.getValue();
+            int[] request = {reqRegular, reqDeluxe, reqStaff};
+
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            try {
+                conn = DatabaseConnection.getConnection();
+                conn.setAutoCommit(false); // Start transaction
+
+                // Get current and max allocations
+                String guestSql = "SELECT allocated_regular, allocated_deluxe, allocated_staff, " +
+                                "max_regular, max_deluxe, max_staff FROM guests " +
+                                "WHERE guest_name = ? AND status = 'Check-In'";
+                int[] currentAlloc = new int[3];
+                int[] maxAlloc = new int[3];
+
+                stmt = conn.prepareStatement(guestSql);
+                stmt.setString(1, selectedGuestName);
+                rs = stmt.executeQuery();
+
+                if (!rs.next()) {
+                    JOptionPane.showMessageDialog(this, "Guest not found or checked out", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                currentAlloc[0] = rs.getInt("allocated_regular");
+                currentAlloc[1] = rs.getInt("allocated_deluxe");
+                currentAlloc[2] = rs.getInt("allocated_staff");
+                maxAlloc[0] = rs.getInt("max_regular");
+                maxAlloc[1] = rs.getInt("max_deluxe");
+                maxAlloc[2] = rs.getInt("max_staff");
+
+                // Close the first result set and statement
+                rs.close();
+                stmt.close();
+
+                // Validate against max allocation
+                if (reqRegular > maxAlloc[0] || reqDeluxe > maxAlloc[1] || reqStaff > maxAlloc[2]) {
+                    showValidationError("Request exceeds maximum allocation:",
+                        reqRegular, maxAlloc[0], "Regular",
+                        reqDeluxe, maxAlloc[1], "Deluxe",
+                        reqStaff, maxAlloc[2], "Staff");
+                    return;
+                }
+
+                // Check available resources
+                int[] available = getCurrentAvailableResources();
+                if (available == null) {
+                    JOptionPane.showMessageDialog(this, "Error checking resources", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Calculate actual request (difference)
+                int[] actualRequest = {
+                    reqRegular - currentAlloc[0],
+                    reqDeluxe - currentAlloc[1],
+                    reqStaff - currentAlloc[2]
+                };
+
+                // Validate against available
+                if (actualRequest[0] > available[0] || 
+                    actualRequest[1] > available[1] || 
+                    actualRequest[2] > available[2]) {
+                    showValidationError("Not enough available resources:",
+                        actualRequest[0], available[0], "Regular",
+                        actualRequest[1], available[1], "Deluxe",
+                        actualRequest[2], available[2], "Staff");
+                    return;
+                }
+
+                // Safety check
+                if (!isSafeAllocation(selectedGuestName, reqRegular, reqDeluxe, 
+                        maxAlloc[0], maxAlloc[1], maxAlloc[2])) {
+                    JOptionPane.showMessageDialog(this,
+                        "This allocation would make system unsafe",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // 1. UPDATE GUEST ALLOCATION IN DATABASE
+                String updateGuestSql = "UPDATE guests SET " +
+                    "allocated_regular = ?, allocated_deluxe = ?, allocated_staff = ? " +
+                    "WHERE guest_name = ?";
+                stmt = conn.prepareStatement(updateGuestSql);
+                stmt.setInt(1, reqRegular);
+                stmt.setInt(2, reqDeluxe);
+                stmt.setInt(3, reqStaff);
+                stmt.setString(4, selectedGuestName);
+                int guestRowsUpdated = stmt.executeUpdate();
+                stmt.close();
+
+                // Log the update
+                System.out.println("Updated guest allocation: " + guestRowsUpdated + " rows affected");
+                System.out.println("Guest: " + selectedGuestName + ", Regular: " + reqRegular + 
+                                   ", Deluxe: " + reqDeluxe + ", Staff: " + reqStaff);
+
+                // 2. UPDATE RESOURCE ALLOCATION IN DATABASE
+                String updateResourceSql = "UPDATE resource_allocation SET " +
+                    "allocated = allocated + ?, available = available - ? " +
+                    "WHERE resource_type = ?";
+
+                // Regular
+                stmt = conn.prepareStatement(updateResourceSql);
+                stmt.setInt(1, actualRequest[0]);
+                stmt.setInt(2, actualRequest[0]);
+                stmt.setString(3, "regular_suite");
+                int regularRowsUpdated = stmt.executeUpdate();
+                stmt.close();
+
+                // Deluxe
+                stmt = conn.prepareStatement(updateResourceSql);
+                stmt.setInt(1, actualRequest[1]);
+                stmt.setInt(2, actualRequest[1]);
+                stmt.setString(3, "deluxe_suite");
+                int deluxeRowsUpdated = stmt.executeUpdate();
+                stmt.close();
+
+                // Staff
+                stmt = conn.prepareStatement(updateResourceSql);
+                stmt.setInt(1, actualRequest[2]);
+                stmt.setInt(2, actualRequest[2]);
+                stmt.setString(3, "house_staff");
+                int staffRowsUpdated = stmt.executeUpdate();
+                stmt.close();
+
+                // Log the resource updates
+                System.out.println("Updated resources: Regular=" + regularRowsUpdated + 
+                                   ", Deluxe=" + deluxeRowsUpdated + 
+                                   ", Staff=" + staffRowsUpdated + " rows affected");
+
+                // 3. UPDATE REQUEST STATUS IN DATABASE
+                String updateRequestSql = "UPDATE guest_requests SET status = 'Approved' " +
+                                        "WHERE guest_name = ?";
+                stmt = conn.prepareStatement(updateRequestSql);
+                stmt.setString(1, selectedGuestName);
+                int requestRowsUpdated = stmt.executeUpdate();
+                stmt.close();
+
+                // Log the request update
+                System.out.println("Updated request status: " + requestRowsUpdated + " rows affected");
+
+                // 4. COMMIT ALL DATABASE CHANGES
+                conn.commit();
+                System.out.println("Transaction committed successfully");
+
+                // 5. REFRESH UI COMPONENTS
+                refreshTables();
+                updateAvailabilityLabels();
+                updateNeedsRequestsTable(jtblNeedsRequests, request, selectedGuestName);
+
+                // 6. NOTIFY USER OF SUCCESS
+                JOptionPane.showMessageDialog(this,
+                    "Allocation updated successfully in database",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                // 7. RESET SPINNERS TO ZERO
+                jSpinner10.setValue(0);
+                jSpinner11.setValue(0);
+                jSpinner12.setValue(0);
+
+                // 8. CLOSE THE DIALOG
+                jDialogEdit.setVisible(false);
+
+            } catch (SQLException e) {
+                // Rollback transaction on error
+                if (conn != null) {
+                    try {
+                        conn.rollback();
+                        System.out.println("Transaction rolled back due to error");
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this,
+                    "Database error: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                // Properly close all resources
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (conn != null) {
+                        conn.setAutoCommit(true); // Reset auto-commit
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "Error: " + ex.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbtnConfirmEditActionPerformed
+
+    private void showValidationError(String title,
+                                  int reqRegular, int limitRegular, String labelRegular,
+                                  int reqDeluxe, int limitDeluxe, String labelDeluxe,
+                                  int reqStaff, int limitStaff, String labelStaff) {
+
+    StringBuilder msg = new StringBuilder(title + "\n");
+
+    if (reqRegular > limitRegular) {
+        msg.append("• ").append(labelRegular)
+           .append(": Requested ").append(reqRegular)
+           .append(" > Allowed ").append(limitRegular).append("\n");
+    }
+    if (reqDeluxe > limitDeluxe) {
+        msg.append("• ").append(labelDeluxe)
+           .append(": Requested ").append(reqDeluxe)
+           .append(" > Allowed ").append(limitDeluxe).append("\n");
+    }
+    if (reqStaff > limitStaff) {
+        msg.append("• ").append(labelStaff)
+           .append(": Requested ").append(reqStaff)
+           .append(" > Allowed ").append(limitStaff).append("\n");
+    }
+
+    JOptionPane.showMessageDialog(this, msg.toString(), "Validation Error", JOptionPane.WARNING_MESSAGE);
+}
+
+    
+    private void updateGuestAllocation(Connection conn, String guestName, 
+        int regular, int deluxe, int staff, String status) throws SQLException {
+    String sql = "UPDATE guests SET allocated_regular = ?, allocated_deluxe = ?, allocated_staff = ?, status = ? "
+               + "WHERE guest_name = ? AND status = 'Check-In'";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, regular);
+        stmt.setInt(2, deluxe);
+        stmt.setInt(3, staff);
+        stmt.setString(4, status);
+        stmt.setString(5, guestName);
+        stmt.executeUpdate();
+    }
+    }
+    
     public void placeHolderEffect(JTextField field, String placeholderText) {
         field.setForeground(Color.GRAY);
         field.setText(placeholderText);
@@ -1321,13 +1670,13 @@ public class Dashboard extends javax.swing.JFrame {
 
                 switch (type) {
                     case "regular_suite":
-                        jlblRegular.setText("Regular Suites: " + String.valueOf(available));
+                        jlblEditRegular.setText("Regular Suites: " + String.valueOf(available));
                         break;
                     case "deluxe_suite":
-                        jlblDeluxe.setText("Deluxe Suites: " + String.valueOf(available));
+                        jlblEditDeluxe.setText("Deluxe Suites: " + String.valueOf(available));
                         break;
                     case "house_staff":
-                        jlblStaff.setText("Staff: " + String.valueOf(available));
+                        jlblEditStaff.setText("Staff: " + String.valueOf(available));
                         break;
                 }
             }
@@ -1337,7 +1686,94 @@ public class Dashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Failed to fetch availability.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+   private void updateEditAvailabilityLabels() {
+        String query = "SELECT resource_type, available FROM resource_allocation";
 
+        try (Connection conn = DatabaseConnection.getConnection(); 
+             PreparedStatement stmt = conn.prepareStatement(query); 
+             ResultSet rs = stmt.executeQuery()) {
+
+            // Get current available resources
+            int availableRegular = 0;
+            int availableDeluxe = 0;
+            int availableStaff = 0;
+
+            while (rs.next()) {
+                String type = rs.getString("resource_type");
+                int available = rs.getInt("available");
+
+                switch (type) {
+                    case "regular_suite":
+                        availableRegular = available;
+                        break;
+                    case "deluxe_suite":
+                        availableDeluxe = available;
+                        break;
+                    case "house_staff":
+                        availableStaff = available;
+                        break;
+                }
+            }
+
+            // Get current allocation for the selected guest
+            if (selectedGuestName != null) {
+                String guestQuery = "SELECT allocated_regular, allocated_deluxe, allocated_staff FROM guests WHERE guest_name = ?";
+                try (PreparedStatement guestStmt = conn.prepareStatement(guestQuery)) {
+                    guestStmt.setString(1, selectedGuestName);
+                    try (ResultSet guestRs = guestStmt.executeQuery()) {
+                        if (guestRs.next()) {
+                            int currentRegular = guestRs.getInt("allocated_regular");
+                            int currentDeluxe = guestRs.getInt("allocated_deluxe");
+                            int currentStaff = guestRs.getInt("allocated_staff");
+
+                            // Get requested values from spinners
+                            int requestedRegular = (Integer) jSpinner10.getValue();
+                            int requestedDeluxe = (Integer) jSpinner11.getValue();
+                            int requestedStaff = (Integer) jSpinner12.getValue();
+
+                            // Calculate the difference (positive means more resources needed, negative means resources freed)
+                            int diffRegular = requestedRegular - currentRegular;
+                            int diffDeluxe = requestedDeluxe - currentDeluxe;
+                            int diffStaff = requestedStaff - currentStaff;
+
+                            // Calculate projected availability
+                            int projectedRegular = availableRegular - diffRegular;
+                            int projectedDeluxe = availableDeluxe - diffDeluxe;
+                            int projectedStaff = availableStaff - diffStaff;
+
+                            // Update labels with projected availability and change indicators
+                            String regularText = "Regular Suites: " + projectedRegular;
+                            String deluxeText = "Deluxe Suites: " + projectedDeluxe;
+                            String staffText = "Staff: " + projectedStaff;
+
+                            // Add change indicators if there's a difference
+                            if (diffRegular != 0) {
+                                regularText += " (" + (diffRegular > 0 ? "-" : "+") + Math.abs(diffRegular) + ")";
+                            }
+                            if (diffDeluxe != 0) {
+                                deluxeText += " (" + (diffDeluxe > 0 ? "-" : "+") + Math.abs(diffDeluxe) + ")";
+                            }
+                            if (diffStaff != 0) {
+                                staffText += " (" + (diffStaff > 0 ? "-" : "+") + Math.abs(diffStaff) + ")";
+                            }
+
+                            // Update the labels
+                            jlblEditRegular.setText(regularText);
+                            jlblEditDeluxe.setText(deluxeText);
+                            jlblEditStaff.setText(staffText);
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to fetch availability.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
     public void handleGuestCheckOut(String searchName) {
         try (Connection conn = DatabaseConnection.getConnection()) {
             // Query to find guests who are currently checked in
@@ -1431,66 +1867,173 @@ public class Dashboard extends javax.swing.JFrame {
                     "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+  // First, let's update the updateNeedsRequestsTable method to use the database
+public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        // Clear existing requests for this guest
+        String clearSql = "DELETE FROM guest_requests WHERE guest_name = ?";
+        try (PreparedStatement clearStmt = conn.prepareStatement(clearSql)) {
+            clearStmt.setString(1, requestingGuest);
+            clearStmt.executeUpdate();
+        }
 
-    public void updateNeedsRequestsTable(JTable table, int[] request, String requestingGuest) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
+        // Get all checked-in guests and their needs
+        String query = "SELECT g.guest_name, " +
+                      "g.allocated_regular, g.allocated_deluxe, g.allocated_staff, " +
+                      "g.max_regular - g.allocated_regular AS need_regular, " +
+                      "g.max_deluxe - g.allocated_deluxe AS need_deluxe, " +
+                      "g.max_staff - g.allocated_staff AS need_staff, " +
+                      "g.max_regular, g.max_deluxe, g.max_staff " +
+                      "FROM guests g WHERE g.status = 'Check-In'";
+        
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0); // Clear existing data
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM guests WHERE status = 'Check-In'");
-
-            int[] available = getCurrentAvailableResources();
+            model.setRowCount(0);
 
             while (rs.next()) {
-                String name = rs.getString("guest_name");
-                int[] alloc = {
-                    rs.getInt("allocated_regular"),
-                    rs.getInt("allocated_deluxe"),
-                    rs.getInt("allocated_staff")
-                };
-                int[] max = {
-                    rs.getInt("max_regular"),
-                    rs.getInt("max_deluxe"),
-                    rs.getInt("max_staff")
-                };
+                String guestName = rs.getString("guest_name");
+                int needRegular = rs.getInt("need_regular");
+                int needDeluxe = rs.getInt("need_deluxe");
+                int needStaff = rs.getInt("need_staff");
+                
+                // Get current allocations
+                int currentRegular = rs.getInt("allocated_regular");
+                int currentDeluxe = rs.getInt("allocated_deluxe");
+                int currentStaff = rs.getInt("allocated_staff");
+                
+                // Get maximum allocations
+                int maxRegular = rs.getInt("max_regular");
+                int maxDeluxe = rs.getInt("max_deluxe");
+                int maxStaff = rs.getInt("max_staff");
 
-                int[] need = new int[3];
-                for (int i = 0; i < 3; i++) {
-                    need[i] = max[i] - alloc[i];
-                }
-
-                int[] req = {0, 0, 0};
+                // Initialize request values
+                int reqRegular = 0;
+                int reqDeluxe = 0;
+                int reqStaff = 0;
                 String status = "—";
 
-                if (name.equalsIgnoreCase(requestingGuest)) {
-                    req = request;
+                // If this is the guest being edited
+                if (guestName.equals(requestingGuest)) {
+                    reqRegular = request[0];
+                    reqDeluxe = request[1];
+                    reqStaff = request[2];
 
-                    boolean reqWithinNeed = req[0] <= need[0] && req[1] <= need[1] && req[2] <= need[2];
-                    boolean reqWithinAvail = req[0] <= available[0] && req[1] <= available[1] && req[2] <= available[2];
+                    // Determine status - FIXED LOGIC HERE
+                    // A request is valid if:
+                    // 1. It's less than or equal to current allocation (reducing or keeping same), OR
+                    // 2. The increase (request - current) is less than or equal to remaining need
+                    boolean isValid = true;
+                    
+                    // Check regular suites
+                    if (reqRegular > currentRegular) {
+                        // Requesting an increase
+                        int increase = reqRegular - currentRegular;
+                        if (increase > needRegular) {
+                            isValid = false;
+                        }
+                    }
+                    
+                    // Check deluxe suites
+                    if (reqDeluxe > currentDeluxe) {
+                        // Requesting an increase
+                        int increase = reqDeluxe - currentDeluxe;
+                        if (increase > needDeluxe) {
+                            isValid = false;
+                        }
+                    }
+                    
+                    // Check staff
+                    if (reqStaff > currentStaff) {
+                        // Requesting an increase
+                        int increase = reqStaff - currentStaff;
+                        if (increase > needStaff) {
+                            isValid = false;
+                        }
+                    }
+                    
+                    // Also check that request doesn't exceed maximum
+                    if (reqRegular > maxRegular || reqDeluxe > maxDeluxe || reqStaff > maxStaff) {
+                        isValid = false;
+                    }
+                    
+                    // CHANGED: Set status to "Approved" instead of "Pending" for valid requests
+                    status = isValid ? "Approved" : "Invalid";
 
-                    if (!reqWithinNeed) {
-                        status = "Invalid";
-                    } else if (!reqWithinAvail) {
-                        status = "Pending";
-                    } else {
-                        boolean safe = isSafeAllocation(name, req[0], req[1], max[0], max[1], max[2]);
-                        status = safe ? "Approved" : "Denied";
+                    // Insert into guest_requests table
+                    String insertSql = "INSERT INTO guest_requests " +
+                            "(guest_name, need_regular, need_deluxe, need_staff, " +
+                            "req_regular, req_deluxe, req_staff, status) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                        insertStmt.setString(1, guestName);
+                        insertStmt.setInt(2, needRegular);
+                        insertStmt.setInt(3, needDeluxe);
+                        insertStmt.setInt(4, needStaff);
+                        insertStmt.setInt(5, reqRegular);
+                        insertStmt.setInt(6, reqDeluxe);
+                        insertStmt.setInt(7, reqStaff);
+                        insertStmt.setString(8, status);
+                        insertStmt.executeUpdate();
                     }
                 }
 
+                // Add to table model
                 model.addRow(new Object[]{
-                    name,
-                    need[0], need[1], need[2],
-                    req[0], req[1], req[2],
+                    guestName,
+                    needRegular,
+                    needDeluxe,
+                    needStaff,
+                    reqRegular,
+                    reqDeluxe,
+                    reqStaff,
                     status
                 });
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, 
+            "Error updating needs/requests: " + e.getMessage(),
+            "Database Error", JOptionPane.ERROR_MESSAGE);
     }
+}
+
+
+public void loadNeedsRequestsTable() {
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        String query = "SELECT gr.guest_name, gr.need_regular, gr.need_deluxe, gr.need_staff, " +
+                      "gr.req_regular, gr.req_deluxe, gr.req_staff, gr.status " +
+                      "FROM guest_requests gr " +
+                      "JOIN guests g ON gr.guest_name = g.guest_name " +
+                      "WHERE g.status = 'Check-In'";
+        
+        DefaultTableModel model = (DefaultTableModel) jtblNeedsRequests.getModel();
+        model.setRowCount(0);
+
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("guest_name"),
+                    rs.getInt("need_regular"),
+                    rs.getInt("need_deluxe"),
+                    rs.getInt("need_staff"),
+                    rs.getInt("req_regular"),
+                    rs.getInt("req_deluxe"),
+                    rs.getInt("req_staff"),
+                    rs.getString("status")
+                });
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 
     //Current Resources
     private int[] getCurrentAvailableResources() throws SQLException {
@@ -1707,29 +2250,29 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner6;
     private javax.swing.JButton jbtnArchived;
     private javax.swing.JButton jbtnCheckin;
-    private javax.swing.JButton jbtnCheckout1;
+    private javax.swing.JButton jbtnCheckout;
     private javax.swing.JButton jbtnCheckoutClose;
     private javax.swing.JButton jbtnCheckoutSearch;
     private javax.swing.JButton jbtnCloseArchived;
     private javax.swing.JButton jbtnCloseCheckin;
     private javax.swing.JButton jbtnCloseEdit;
     private javax.swing.JButton jbtnConfirmAllocation;
-    private javax.swing.JButton jbtnConfirmEditActionPerformed;
+    private javax.swing.JButton jbtnConfirmEdit;
     private javax.swing.JButton jbtnEdit;
     private javax.swing.JButton jbtnLogout;
     private javax.swing.JButton jbtnSearch;
-    private javax.swing.JLabel jlblDeluxe;
     private javax.swing.JLabel jlblDeluxe1;
+    private javax.swing.JLabel jlblEditDeluxe;
+    private javax.swing.JLabel jlblEditRegular;
+    private javax.swing.JLabel jlblEditStaff;
     private javax.swing.JLabel jlblGuestAllocations;
     private javax.swing.JLabel jlblNeedRequests;
     private javax.swing.JLabel jlblNote;
-    private javax.swing.JLabel jlblRegular;
     private javax.swing.JLabel jlblRegular1;
     private javax.swing.JLabel jlblResourceStatus;
     private javax.swing.JLabel jlblSearch;
     private javax.swing.JLabel jlblSearchGuest;
     private javax.swing.JLabel jlblSearchGuest1;
-    private javax.swing.JLabel jlblStaff;
     private javax.swing.JLabel jlblStaff1;
     private javax.swing.JLabel jlblTitleCheckin;
     private javax.swing.JLabel jlblTitleCheckin1;

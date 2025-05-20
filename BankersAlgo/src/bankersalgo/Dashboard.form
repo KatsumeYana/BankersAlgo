@@ -300,11 +300,11 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                          <Component id="jlblRegular" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlblEditRegular" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                          <Component id="jlblDeluxe" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlblEditDeluxe" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="98" max="32767" attributes="0"/>
-                          <Component id="jlblStaff" min="-2" max="-2" attributes="0"/>
+                          <Component id="jlblEditStaff" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -316,9 +316,9 @@
                           <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jlblRegular" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jlblDeluxe" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jlblStaff" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlblEditRegular" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlblEditDeluxe" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlblEditStaff" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="28" max="32767" attributes="0"/>
                       </Group>
@@ -334,7 +334,7 @@
                     <Property name="text" type="java.lang.String" value="Available Resources"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jlblRegular">
+                <Component class="javax.swing.JLabel" name="jlblEditRegular">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Afacad" size="18" style="0"/>
@@ -342,7 +342,7 @@
                     <Property name="text" type="java.lang.String" value="Regular:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jlblDeluxe">
+                <Component class="javax.swing.JLabel" name="jlblEditDeluxe">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Afacad" size="18" style="0"/>
@@ -350,7 +350,7 @@
                     <Property name="text" type="java.lang.String" value="Deluxe:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jlblStaff">
+                <Component class="javax.swing.JLabel" name="jlblEditStaff">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Afacad" size="18" style="0"/>
@@ -833,10 +833,6 @@
                                       <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jlblSearchGuest1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="jtxtFieldGuest1" max="32767" attributes="0"/>
-                                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                          </Group>
                                           <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="1" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -846,7 +842,7 @@
                                                   </Group>
                                                   <Group type="102" alignment="1" attributes="0">
                                                       <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="138" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -854,8 +850,9 @@
                                                   <Component id="jSpinner11" alignment="0" min="-2" pref="192" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <Component id="jSpinner12" alignment="1" min="-2" pref="440" max="-2" attributes="0"/>
+                                          <Component id="jSpinner12" alignment="0" pref="440" max="32767" attributes="0"/>
                                           <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jtxtFieldGuest1" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -863,7 +860,7 @@
                                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" pref="106" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="115" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -873,7 +870,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jbtnCloseEdit" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jbtnConfirmEditActionPerformed" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbtnConfirmEdit" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -903,14 +900,14 @@
                       <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSpinner12" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="170" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
                       <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="45" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jbtnCloseEdit" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbtnConfirmEditActionPerformed" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbtnConfirmEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                   </Group>
@@ -955,7 +952,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Afacad" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Max Regular"/>
+                <Property name="text" type="java.lang.String" value="Requested Regular"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel21">
@@ -963,7 +960,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Afacad" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Max Deluxe"/>
+                <Property name="text" type="java.lang.String" value="Requested Deluxe"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="jSpinner11">
@@ -978,7 +975,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Afacad" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Max Staff Need"/>
+                <Property name="text" type="java.lang.String" value="Requested Staff Need"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="jSpinner12">
@@ -1084,7 +1081,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCloseEditActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jbtnConfirmEditActionPerformed">
+            <Component class="javax.swing.JButton" name="jbtnConfirmEdit">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="4c" green="7d" red="ab" type="rgb"/>
@@ -1098,7 +1095,7 @@
                 <Property name="text" type="java.lang.String" value="Confirm Updated Allocation"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnConfirmEditActionPerformedActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnConfirmEditActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jtxtFieldGuest1">
@@ -1174,7 +1171,7 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jbtnCheckin" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jbtnCheckout1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jbtnCheckout" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jbtnEdit" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -1208,7 +1205,7 @@
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jbtnCheckin" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jbtnEdit" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbtnCheckout1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jbtnCheckout" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jbtnArchived" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -1543,7 +1540,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnLogoutActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jbtnCheckout1">
+        <Component class="javax.swing.JButton" name="jbtnCheckout">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="4c" green="7d" red="ab" type="rgb"/>
@@ -1557,7 +1554,7 @@
             <Property name="text" type="java.lang.String" value="Checkout"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCheckout1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCheckoutActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

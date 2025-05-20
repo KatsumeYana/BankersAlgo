@@ -68,6 +68,23 @@ public class DatabaseSetup {
                 """;
             stmt.executeUpdate(createAdminUsers);
 
+            // Create guest_requests table
+                String createRequestsTable = """
+                    CREATE TABLE IF NOT EXISTS guest_requests (
+                        request_id INT AUTO_INCREMENT PRIMARY KEY,
+                        guest_name VARCHAR(100) NOT NULL,
+                        need_regular INT DEFAULT 0,
+                        need_deluxe INT DEFAULT 0,
+                        need_staff INT DEFAULT 0,
+                        req_regular INT DEFAULT 0,
+                        req_deluxe INT DEFAULT 0,
+                        req_staff INT DEFAULT 0,
+                        status ENUM('Approved', 'Denied', 'Pending', 'Invalid', '—') DEFAULT '—',
+                        request_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    );
+                    """;
+                stmt.executeUpdate(createRequestsTable);
+
             // Insert default resources
             String insertResources = """
                 INSERT IGNORE INTO resource_allocation (resource_type, max_capacity, allocated, available, status)

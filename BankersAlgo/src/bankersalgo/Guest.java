@@ -29,25 +29,19 @@ public class Guest {
         this.maxRegular = maxRegular;
         this.maxDeluxe = maxDeluxe;
         this.maxStaff = maxStaff;
+        this.allocated = new int[]{allocatedRegular, allocatedDeluxe, allocatedStaff};
+        this.maxNeed = new int[]{maxRegular, maxDeluxe, maxStaff}; // Ensure this is initialized
     }
     public Guest(int[] allocated, int[] maxNeed) {
         this.allocated = allocated;
         this.maxNeed = maxNeed;
     }
         public int[] getNeed() {
-                return new int[] {
-                    maxNeed[0] - allocated[0],
-                    maxNeed[1] - allocated[1],
-                    maxNeed[2] - allocated[2]
-                };
-            }
-    // Getters
-    public String getName() { return name; }
-    public int getAllocatedRegular() { return allocatedRegular; }
-    public int getAllocatedDeluxe() { return allocatedDeluxe; }
-    public int getAllocatedStaff() { return allocatedStaff; }
-    public int getMaxRegular() { return maxRegular; }
-    public int getMaxDeluxe() { return maxDeluxe; }
-    public int getMaxStaff() { return maxStaff; }
+        int[] need = new int[maxNeed.length];
+        for (int i = 0; i < maxNeed.length; i++) {
+            need[i] = maxNeed[i] - allocated[i];
+        }
+        return need;
+    }
+    
 }
-
