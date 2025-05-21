@@ -1757,7 +1757,8 @@ public class Dashboard extends javax.swing.JFrame {
                             if (diffStaff != 0) {
                                 staffText += " (" + (diffStaff > 0 ? "-" : "+") + Math.abs(diffStaff) + ")";
                             }
-
+                                
+                            //hi po
                             // Update the labels
                             jlblEditRegular.setText(regularText);
                             jlblEditDeluxe.setText(deluxeText);
