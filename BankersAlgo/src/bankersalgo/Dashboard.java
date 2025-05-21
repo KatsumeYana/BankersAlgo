@@ -1065,6 +1065,12 @@ public class Dashboard extends javax.swing.JFrame {
                     int maxDeluxe = rs.getInt("max_deluxe");
                     int maxStaff = rs.getInt("max_staff");
 
+                    // Set the spinners to the current allocated values
+                    jSpinner10.setValue(allocRegular); // Set spinner for requested regular rooms
+                    jSpinner11.setValue(allocDeluxe);  // Set spinner for requested deluxe rooms
+                    jSpinner12.setValue(allocStaff);    // Set spinner for requested staff rooms
+                
+                    
                     // Calculate remaining needs
                     int needRegular = Math.max(0, maxRegular - allocRegular);
                     int needDeluxe = Math.max(0, maxDeluxe - allocDeluxe);
@@ -1758,7 +1764,7 @@ public class Dashboard extends javax.swing.JFrame {
                                 staffText += " (" + (diffStaff > 0 ? "-" : "+") + Math.abs(diffStaff) + ")";
                             }
                                 
-                            //hi po
+                            //hi 
                             // Update the labels
                             jlblEditRegular.setText(regularText);
                             jlblEditDeluxe.setText(deluxeText);
